@@ -2,8 +2,8 @@ current_dir = File.dirname(__FILE__)
 
 log_level               :debug
 log_location            STDOUT
-node_name               "sam"
-client_key              "#{current_dir}/sam.pem"
+node_name               "super_awesome_chef_workstation"
+client_key              "#{current_dir}/super_awesome_chef_workstation.pem"
 validation_client_name  "chef-validator"
 validation_key          "#{current_dir}/validation.pem"
 chef_server_url         "http://127.0.0.1:4000"
