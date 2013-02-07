@@ -1,2 +1,7 @@
-/cookbooks
-/tmp
+/cookbooks/
+/tmp/
+/.idea/
+/.vagrant
+*pem
+id_rsa*
+*log
