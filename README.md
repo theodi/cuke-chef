@@ -1,4 +1,4 @@
-We've been kicking [cucumber-chef](https://github.com/Atalanta/cucumber-chef) 2.1 around for a couple of weeks and finally achieved full end-to-end-ness with the latest rc releases the other day (thanks @zpatten). This should get you up and running with a test lab and a sample cucumber feature (with a bit of [librarian](https://github.com/applicationsonline/librarian) thrown in for free).
+We've been kicking [cucumber-chef](https://github.com/Atalanta/cucumber-chef) 2.1 around for a couple of weeks and finally achieved full end-to-end-ness with the latest rc releases the other day (thanks [@zpatten](https://github.com/zpatten)). This should get you up and running with a test lab and a sample cucumber feature (with a bit of [librarian](https://github.com/applicationsonline/librarian) thrown in for free).
 
 Dependencies
 ============
