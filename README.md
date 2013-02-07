@@ -23,3 +23,5 @@ When it's done, you can run the sample cuke with
 Everything should be green. If you see red, _I really want to hear about it, please_.
 
 Remember to ```cucumber-chef destroy``` your test lab before attempting to provision another one or Vagrant will sulk and refuse to play.
+
+Not really sure if this will be useful to anybody else just yet, I think it's more about me getting my ducks in a row for now. But expect more interesting things when we actually start building out some intrastructure...
