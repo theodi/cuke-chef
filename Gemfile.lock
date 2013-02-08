@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/Atalanta/cucumber-chef
-  revision: c4b0079e487fcf3686dbd49b058b5d80d4d139d5
-  tag: v2.1.0.rc.10
+  revision: 798c25747410bf4c02f455e7096cc9c4e8207f21
   specs:
     cucumber-chef (2.1.0.rc.10)
       chef (>= 0.10.0)
