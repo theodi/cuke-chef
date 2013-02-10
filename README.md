@@ -18,7 +18,7 @@ This takes ages, you should go and make some tea or something (you can watch the
 
 When it's done, you can run the sample cuke with
 
-    cucumber --tags @super-awesome-server
+    cucumber --tags @superawesomeserver
 
 Everything should be green. If you see red, _I really want to hear about it, please_.
 
