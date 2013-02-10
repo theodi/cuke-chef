@@ -1,4 +1,12 @@
 #!/usr/bin/env ruby
 #^syntax detection
+
 site 'http://community.opscode.com/api/v1'
+
 cookbook 'chef-client', "=1.1.2"
+cookbook 'apache2'
+cookbook 'apt'
+cookbook 'mysql'
+cookbook 'memcached'
+cookbook 'php'
+
