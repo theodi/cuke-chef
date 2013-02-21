@@ -15,7 +15,7 @@ Feature: Install and configure rvm
     * all of the cookbooks in "./site-cookbooks" have been uploaded
 
     * the "chef-client::service" recipe has been added to the "redis-01" run list
-#    * the "rvm::ruby_193" recipe has been added to the "redis-01" run list
+    * the "odi-rvm" recipe has been added to the "redis-01" run list
     * the chef-client has been run on "redis-01"
 
     * I ssh to "redis-01" with the following credentials:
@@ -27,5 +27,5 @@ Feature: Install and configure rvm
     Then I should see "redis-01" in the output
 
   Scenario: Ruby 1.9.3 is installed
-    * I run "ruby -v"
+    * I run "su - ubuntu -c 'ruby -v'"
     * I should see "1.9.3" in the output
