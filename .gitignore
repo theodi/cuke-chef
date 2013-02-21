@@ -6,4 +6,4 @@
 id_rsa*
 *log
 *txt
-Cheffile.lock
+*.lock
