@@ -26,6 +26,6 @@ Feature: Install and configure rvm
     When I run "hostname"
     Then I should see "redis-01" in the output
 
-  Scenario: Ruby 1.9.3 is installed
-    * I run "su - ubuntu -c 'ruby -v'"
-    * I should see "1.9.3" in the output
+  Scenario: Ruby 1.9.2 is installed
+    * I run "su - resque -c 'ruby -v'"
+    * I should see "1.9.2" in the output

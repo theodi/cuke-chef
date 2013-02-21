@@ -24,15 +24,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-#node['rvm']['user_installs'] = [
-#  { 'user'          => 'ubuntu',
-#    'default_ruby'  => 'ruby',
-#    'rubies'        => ['1.9.3']
-#  }
-#]
-
-node['rvm']['rubies'] = [
-  "ruby-1.9.3-p374"
+node['rvm']['user_installs'] = [
+  { 'user'          => 'resque',
+    'default_ruby'  => '1.9.2'
+#    'rubies'        => ['1.9.2']
+  }
 ]
 
-include_recipe "rvm::system"
+#node['rvm']['rubies'] = [
+#  "ruby-1.9.3-p374"
+#]
+
+include_recipe "rvm::user"
