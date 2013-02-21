@@ -1,0 +1,5 @@
+{
+  "id": "resque",
+  "shell": "/bin/bash",
+  "groups": "resque"
+}
