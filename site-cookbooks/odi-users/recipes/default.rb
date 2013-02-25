@@ -27,10 +27,10 @@
 # Nailing the group in here is a hack, this will be specified in the whole-box wrapper cookbook eventually
 
 node.set['user'] = 'resque'
-node.set['group'] = 'resque'
+node.set['group'] = 'odi'
 
 users_manage node['group'] do
-  group_id 5000
+  group_id 5001
   action [ :remove, :create ]
 end
 
