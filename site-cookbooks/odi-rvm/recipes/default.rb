@@ -26,13 +26,13 @@
 
 node['rvm']['user_installs'] = [
   { 'user'          => 'resque',
-    'default_ruby'  => '1.9.3-p374'
-#    'rubies'        => ['1.9.2']
+    'default_ruby'  => '1.9.3',
+    'rubies'        => ['1.9.3']
   }
 ]
 
 #node['rvm']['rubies'] = [
-#  "ruby-1.9.3-p374"
+#  "ruby-1.9.3"
 #]
 
-include_recipe "rvm::user"
+include_recipe "rvm::user_install"
