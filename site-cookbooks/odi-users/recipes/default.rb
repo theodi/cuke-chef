@@ -26,7 +26,11 @@
 
 # Nailing the group in here is a hack, this will be specified in the whole-box wrapper cookbook eventually
 
-users_manage "resque" do
+node.set['user'] = 'resque'
+node.set['group'] = 'resque'
+
+users_manage node['group'] do
   group_id 5000
   action [ :remove, :create ]
 end
+
