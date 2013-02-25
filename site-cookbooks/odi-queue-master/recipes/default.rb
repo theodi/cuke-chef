@@ -33,9 +33,10 @@ node.set['rvm']['user_installs'] = [
     }
 ]
 
+include_recipe "apt"
 include_recipe "odi-xml"
 include_recipe "xslt"
 include_recipe "nginx"
-include_recipe "redis::install_from_package"
+include_recipe "redisio"
 include_recipe "odi-users"
 include_recipe "rvm::user_install"
