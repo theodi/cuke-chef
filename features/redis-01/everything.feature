@@ -32,23 +32,35 @@ Feature: Install and configure all the things
   Scenario: libxslt1-dev is installed
     * package "libxslt1-dev" should be installed
 
+  Scenario: curl libraries should be installed
+    * package "libcurl3" should be installed
+    * package "libcurl3-gnutls" should be installed
+    * package "libcurl4-openssl-dev" should be installed
+
+  Scenario: git is installed
+    * package "git" should be installed
+
   Scenario: nginx is installed
     * package "nginx" should be installed
 
   Scenario: Redis is installed
-    * package "redis-server" should be installed
+    * I run "redis-server -h"
+    * I should not see "command not found" in the output
 
   Scenario: Redis is running
     * service "redis" should be running
 
-  Scenario: User 'resque' exists
-    * I run "sudo resque"
+  Scenario: User 'odi' exists
+    * I run "sudo odi"
     * I should not see "Unknown id" in the output
 
   Scenario: User's shell should be bash
-    * I run "su - resque -c 'echo ${SHELL}'"
+    * I run "su - odi -c 'echo ${SHELL}'"
     * I should see "/bin/bash" in the output
 
+  Scenario: User can su root without a password
+    * THIS IS A FAILING TEST
+
   Scenario: Ruby 1.9.3 is installed
-    * I run "su - resque -c 'ruby -v'"
+    * I run "su - odi -c 'ruby -v'"
     * I should see "1.9.3" in the output
