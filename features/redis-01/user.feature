@@ -30,10 +30,15 @@ Feature: Create a project-specific user
     When I run "hostname"
     Then I should see "odi" in the output
 
-  Scenario: User 'resque' exists
-    * I run "sudo resque"
+  Scenario: User 'odi' exists
+    * I run "sudo odi"
     * I should not see "Unknown id" in the output
 
   Scenario: User's shell should be bash
-    * I run "su - resque -c 'echo ${SHELL}'"
+    * I run "su - odi -c 'echo ${SHELL}'"
     * I should see "/bin/bash" in the output
+
+  Scenario: User can sudo with no password
+    # we cannot test this properly on Vagrant!
+    * I run "su - odi -c 'sudo bash'"
+    * I should not see "password for odi" in the output
