@@ -21,4 +21,4 @@ cookbook 'users'
 #cookbook 'rvm', :git => 'git://github.com/theodi/chef-rvm.git'
 cookbook 'rvm', :git => 'git@github.com:theodi/chef-rvm.git'
 
-cookbook 'libcurl', :git => 'git@github.com:pikesley/chef-libcurl.git'
+cookbook 'libcurl', :git => 'git@github.com:theodi/chef-libcurl.git'
