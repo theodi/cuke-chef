@@ -24,8 +24,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-node.set['user'] = 'resque'
-node.set['group'] = 'resque'
+node.set['user'] = 'odi'
+node.set['group'] = 'odi'
 
 node.set['rvm']['user_installs'] = [
     { 'user'          => node['user'],
@@ -34,9 +34,13 @@ node.set['rvm']['user_installs'] = [
 ]
 
 include_recipe "apt"
+include_recipe "git"
 include_recipe "odi-xml"
 include_recipe "xslt"
+include_recipe "libcurl"
 include_recipe "nginx"
 include_recipe "redisio"
+include_recipe "redisio::install"
+include_recipe "redisio::enable"
 include_recipe "odi-users"
 include_recipe "rvm::user_install"
