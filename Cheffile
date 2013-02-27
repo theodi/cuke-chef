@@ -9,13 +9,16 @@ cookbook 'apt'
 cookbook 'mysql'
 cookbook 'memcached'
 cookbook 'php'
-
 cookbook 'redis'
 cookbook 'xml'
 cookbook 'xslt'
 cookbook 'nginx'
 cookbook 'redisio', :git => 'git://github.com/brianbianco/redisio.git'
 cookbook 'git'
-cookbook 'rvm', :git => 'git://github.com/theodi/chef-rvm.git'
-#cookbook 'rvm', :git => 'git@github.com:theodi/chef-rvm.git'
 cookbook 'users'
+
+# ODI books here
+#cookbook 'rvm', :git => 'git://github.com/theodi/chef-rvm.git'
+cookbook 'rvm', :git => 'git@github.com:theodi/chef-rvm.git'
+
+cookbook 'libcurl', :git => 'git@github.com:pikesley/chef-libcurl.git'
