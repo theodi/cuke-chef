@@ -42,7 +42,7 @@ root_dir = "/var/www/members.theodi.org"
   end
 end
 
-deploy_revision "members_theodi_org" do
+deploy_revision "memberstheodiorg" do
   deploy_to root_dir
   repo 'https://github.com/theodi/member-directory.git'
   revision 'feature-production-deploy'
