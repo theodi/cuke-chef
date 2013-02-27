@@ -38,10 +38,11 @@ root_dir = "/var/www/members.theodi.org"
     d
   ] do
     action :create
+    recursive true
   end
 end
 
-deploy_revision "members.theodi.org" do
+deploy_revision "members_theodi_org" do
   deploy_to root_dir
   repo 'https://github.com/theodi/member-directory.git'
   revision 'feature-production-deploy'
