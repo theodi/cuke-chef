@@ -7,8 +7,10 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
 depends "apt"
+depends "git"
 depends "xslt"
 depends "odi-xml"
+depends "libcurl"
 depends "nginx"
 depends "redisio"
 depends "odi-users"
