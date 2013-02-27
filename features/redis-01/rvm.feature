@@ -27,5 +27,5 @@ Feature: Install and configure rvm
     Then I should see "odi" in the output
 
   Scenario: Ruby 1.9.3 is installed
-    * I run "su - resque -c 'ruby -v'"
+    * I run "su - odi -c 'ruby -v'"
     * I should see "1.9.3" in the output
