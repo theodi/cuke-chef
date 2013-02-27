@@ -32,3 +32,8 @@ Feature: Install dependencies
 
   Scenario: libxslt1-dev is installed
     * package "libxslt1-dev" should be installed
+
+  Scenario: curl libraries should be installed
+    * package "libcurl3" should be installed
+    * package "libcurl3-gnutls" should be installed
+    * package "libcurl4-openssl-dev" should be installed
