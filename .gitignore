@@ -8,3 +8,4 @@ id_rsa*
 *txt
 *.lock
 .DS_Store
+.live-chef/
