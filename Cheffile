@@ -20,5 +20,5 @@ cookbook 'users'
 # ODI books here
 #cookbook 'rvm', :git => 'git://github.com/theodi/chef-rvm.git'
 cookbook 'rvm', :git => 'git@github.com:theodi/chef-rvm.git'
-
 cookbook 'libcurl', :git => 'git@github.com:theodi/chef-libcurl.git'
+cookbook 'sqlite', :git => 'git@github.com:theodi/chef-sqlite.git'
