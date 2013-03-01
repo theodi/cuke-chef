@@ -24,13 +24,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-node.set['user'] = 'odi'
-node.set['group'] = 'odi'
+#node.set['user'] = 'odi'
+#node.set['group'] = 'odi'
 
 node.set['rvm']['user_installs'] = [
-  { 'user'          => 'odi',
-    'default_ruby'  => '1.9.3',
-    'rubies'        => ['1.9.3']
+  { 'user'          => node['user'],
+    'default_ruby'  => node['ruby'],
+    'rubies'        => [
+      node['ruby']
+    ]
   }
 ]
 
