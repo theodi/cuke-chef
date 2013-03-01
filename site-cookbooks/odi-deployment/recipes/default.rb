@@ -26,26 +26,76 @@
 
 include_recipe 'git'
 
-root_dir = "/var/www/members.theodi.org"
+root_dir = "/var/www/%s" % [
+  node['project_fqdn']
+]
 
 [
   "",
   "shared",
-  "releases"
+  "shared/config",
+  "shared/pids",
+  "shared/log",
+  "shared/system"
 ].each do |d|
   directory "%s/%s" % [
     root_dir,
     d
   ] do
+    owner node['user']
+    group node['group']
     action :create
     recursive true
   end
 end
 
+[
+  "database.yml",
+  "env"
+].each do |f|
+  p = "%s/%s/%s" % [
+    root_dir,
+    "shared/config",
+    f
+  ]
+  file p do
+    action :create
+    begin
+      dbi = data_bag_item("%s" % [
+        node['git_project']
+      ], f.split('.').first)
+#      dbi = data_bag_item('member-directory', f.split('.').first)
+
+    content dbi["content"].to_yaml
+    rescue Net::HTTPServerException
+    end
+  end
+end
+
 deploy_revision "memberstheodiorg" do
   deploy_to root_dir
-  repo 'https://github.com/theodi/member-directory.git'
-  revision 'feature-production-deploy'
-  migrate true
-  action :deploy
+  user node['user']
+  group node['group']
+  repo 'git://github.com/theodi/member-directory.git'
+#  revision 'feature-production-deploy'
+  symlink_before_migrate(
+    {
+      "config/database.yml" => "config/database.yml",
+      "config/env" => ".env"
+    }
+  )
+  before_migrate do
+    execute "bundle" do
+      command "su - members -c 'cd #{root_dir}/current && bundle'"
+    end
+  end
+#  migrate true
+# RAILS_ENV=production rake db:migrate ???
+# rake assets:precompile ???
+# also RAILS_ENV issues, also had to set
+#      config.serve_static_assets = true
+# nginx should really be doing this
+#  before_restart "rvmsudo foreman export upstart /etc/init"
+#  restart_command "service member-directory restart"
+  action :force_deploy
 end
