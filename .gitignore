@@ -9,3 +9,4 @@ id_rsa*
 *.lock
 .DS_Store
 .live-chef/
+data_bags/member-directory
