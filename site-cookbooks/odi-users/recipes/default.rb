@@ -24,13 +24,29 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# Nailing the group in here is a hack, this will be specified in the whole-box wrapper cookbook eventually
-
-node.set['user'] = 'odi'
-node.set['group'] = 'odi'
-
-users_manage node['group'] do
-  group_id 5000
-  action [ :remove, :create ]
+group "%s" % [
+  node['user']
+] do
+  action :create
 end
 
+user "%s" % [
+  node['user']
+] do
+  gid node['user']
+  shell "/bin/bash"
+  home "/home/%s" % [
+    node['user']
+  ]
+  supports :manage_home => true
+  action :create
+end
+
+file "/etc/sudoers.d/%s" % [
+  node['user']
+] do
+  content "%s ALL=NOPASSWD:ALL" % [
+    node['user']
+  ]
+  action :create
+end
