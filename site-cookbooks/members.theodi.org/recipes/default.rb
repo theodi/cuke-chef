@@ -34,11 +34,13 @@ node.set['project_fqdn'] = "%s.theodi.org" % [
 node.set['git_project'] = 'member-services'
 node.set['mysql']['server_root_password'] = 'rawprawn'
 
+include_recipe "apt"
 include_recipe "odi-xml"
 include_recipe "xslt"
 include_recipe "git"
 include_recipe "nginx"
 include_recipe "mysql::server"
+include_recipe "nodejs"
 include_recipe "redisio"
 include_recipe "redisio::install"
 include_recipe "redisio::enable"
