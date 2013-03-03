@@ -1,4 +1,4 @@
-@members.theodi.org
+@members
 Feature: Build a fully-operational battlestation^W member.theodi.org node from scratch
 
   In order to run the membership system
@@ -6,25 +6,25 @@ Feature: Build a fully-operational battlestation^W member.theodi.org node from s
   I want to install and configure many things
 
   Background:
-    * I have a server called "members.theodi.org"
-    * "members.theodi.org" is running "ubuntu" "precise"
-    * "members.theodi.org" should be persistent
-    * "members.theodi.org" has been provisioned
+    * I have a server called "members"
+    * "members" is running "ubuntu" "precise"
+    * "members" should be persistent
+    * "members" has been provisioned
 
     * all of the cookbooks in "./cookbooks" have been uploaded
     * all of the cookbooks in "./site-cookbooks" have been uploaded
 
-    * the "chef-client::service" recipe has been added to the "members.theodi.org" run list
-    * the "members.theodi.org" recipe has been added to the "members.theodi.org" run list
-    * the chef-client has been run on "members.theodi.org"
+    * the "chef-client::service" recipe has been added to the "members" run list
+    * the "members.theodi.org" recipe has been added to the "members" run list
+    * the chef-client has been run on "members"
 
-    * I ssh to "members.theodi.org" with the following credentials:
+    * I ssh to "members" with the following credentials:
       | username | keyfile |
       | $lxc$    | $lxc$   |
 
   Scenario: Can connect to the provisioned server via SSH authentication
     When I run "hostname"
-    Then I should see "members.theodi.org" in the output
+    Then I should see "members" in the output
 
   Scenario: build-essential is installed
     * package "build-essential" should be installed
@@ -50,7 +50,8 @@ Feature: Build a fully-operational battlestation^W member.theodi.org node from s
     * package "nginx" should be installed
 
   Scenario: nodejs is installed
-    * package "nodejs" should be installed
+    * I run "node -h"
+    * I should not see "command not found" in the output
 
   Scenario: Redis is installed
     * I run "redis-server -h"
