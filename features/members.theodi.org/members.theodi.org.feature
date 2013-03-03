@@ -13,6 +13,9 @@ Feature: Build a fully-operational battlestation^W member.theodi.org node from s
 
     * all of the cookbooks in "./cookbooks" have been uploaded
     * all of the cookbooks in "./site-cookbooks" have been uploaded
+    * the following databags have been updated:
+      | databag          | databag_path                 |
+      | member-directory | ./data_bags/member-directory |
 
     * the "chef-client::service" recipe has been added to the "members" run list
     * the "members.theodi.org" recipe has been added to the "members" run list
