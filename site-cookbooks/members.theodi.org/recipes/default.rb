@@ -31,7 +31,7 @@ node.set['ruby'] = '1.9.3-p374'
 node.set['project_fqdn'] = "%s.theodi.org" % [
   node['project']
 ]
-node.set['git_project'] = 'member-services'
+node.set['git_project'] = 'member-directory'
 node.set['mysql']['server_root_password'] = 'rawprawn'
 
 include_recipe "apt"
