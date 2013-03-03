@@ -85,8 +85,22 @@ deploy_revision "memberstheodiorg" do
     }
   )
   before_migrate do
-    execute "bundle" do
-      command "su - members -c 'cd #{root_dir}/current && bundle'"
+#    execute "bundle" do
+#      command "su - members -c 'cd #{root_dir}/current && bundle'"
+#    end
+    current_release_directory = release_path
+    running_deploy_user = new_resource.user
+    bundler_depot = new_resource.shared_path + '/bundle'
+    excluded_groups = %w(development test)
+
+    script 'Bundling the gems' do
+      interpreter 'bash'
+      cwd current_release_directory
+      user running_deploy_user
+      code <<-EOS
+    bundle install --quiet --deployment --path #{bundler_depot} \
+      --without #{excluded_groups.join(' ')}
+      EOS
     end
   end
 #  migrate true
