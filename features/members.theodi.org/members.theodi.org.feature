@@ -88,6 +88,8 @@ members ALL=NOPASSWD:ALL
     """
 #includedir /etc/sudoers.d
     """
+#    * I run "stat -c %a /etc/sudoers.d/members"
+#    * I should see "440" in the output
 
   Scenario: Ruby 1.9.3 is installed
     * I run "su - members -c 'ruby -v'"
