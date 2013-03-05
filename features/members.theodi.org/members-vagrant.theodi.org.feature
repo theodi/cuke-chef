@@ -9,15 +9,16 @@ Feature: Provision a fully-operational battlestation^W member.theodi.org node fo
     * I have a server called "members-vagrant"
     * "members-vagrant" is running "ubuntu" "precise"
     * "members-vagrant" should be persistent
-    * "members-vagrant" is in the "development" environment
+
+    * the following environment has been uploaded:
+      | environment | environment_path |
+      | vagrant.rb  | ./environments/  |
+
+    * "members-vagrant" is in the "vagrant" environment
     * "members-vagrant" has been provisioned
 
     * all of the cookbooks in "./cookbooks" have been uploaded
     * all of the cookbooks in "./site-cookbooks" have been uploaded
-
-    * the following environment has been uploaded:
-      | environment    | environment_path |
-      | development.rb | ./environments/  |
 
     * the following databags have been updated:
       | databag          | databag_path                 |
