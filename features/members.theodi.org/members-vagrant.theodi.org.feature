@@ -14,6 +14,10 @@ Feature: Provision a fully-operational battlestation^W member.theodi.org node fo
       | environment | environment_path |
       | vagrant.rb  | ./environments/  |
 
+    * the following roles have been uploaded:
+      | role       | role_path |
+      | members.rb | ./roles/  |
+
     * "members-vagrant" is in the "vagrant" environment
     * "members-vagrant" has been provisioned
 
@@ -25,7 +29,7 @@ Feature: Provision a fully-operational battlestation^W member.theodi.org node fo
       | member-directory | ./data_bags/member-directory |
 
     * the "chef-client::service" recipe has been added to the "members-vagrant" run list
-    * the "members.theodi.org::vagrant" recipe has been added to the "members-vagrant" run list
+    * the "members" role has been added to the "members-vagrant" run list
     * the chef-client has been run on "members-vagrant"
 
     * I ssh to "members-vagrant" with the following credentials:
