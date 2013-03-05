@@ -1,4 +1,4 @@
-@members-development
+@members-vagrant
 Feature: Provision a fully-operational battlestation^W member.theodi.org node for dev
 
   In order to develop the membership system
@@ -6,11 +6,11 @@ Feature: Provision a fully-operational battlestation^W member.theodi.org node fo
   I want to install and configure many things
 
   Background:
-    * I have a server called "members-development"
-    * "members-development" is running "ubuntu" "precise"
-    * "members-development" should be persistent
-    * "members-development" is in the "development" environment
-    * "members-development" has been provisioned
+    * I have a server called "members-vagrant"
+    * "members-vagrant" is running "ubuntu" "precise"
+    * "members-vagrant" should be persistent
+    * "members-vagrant" is in the "development" environment
+    * "members-vagrant" has been provisioned
 
     * all of the cookbooks in "./cookbooks" have been uploaded
     * all of the cookbooks in "./site-cookbooks" have been uploaded
@@ -23,22 +23,26 @@ Feature: Provision a fully-operational battlestation^W member.theodi.org node fo
       | databag          | databag_path                 |
       | member-directory | ./data_bags/member-directory |
 
-    * the "chef-client::service" recipe has been added to the "members-development" run list
-    * the "members.theodi.org" recipe has been added to the "members-development" run list
-    * the chef-client has been run on "members-development"
+    * the "chef-client::service" recipe has been added to the "members-vagrant" run list
+    * the "members.theodi.org::vagrant" recipe has been added to the "members-vagrant" run list
+    * the chef-client has been run on "members-vagrant"
 
-    * I ssh to "members-development" with the following credentials:
+    * I ssh to "members-vagrant" with the following credentials:
       | username | keyfile |
       | $lxc$    | $lxc$   |
 
   Scenario: Can connect to the provisioned server via SSH authentication
     When I run "hostname"
-    Then I should see "members-development" in the output
+    Then I should see "members-vagrant" in the output
 
   Scenario: Core dependencies are installed
     * package "build-essential" should be installed
     * package "git" should be installed
     * package "curl" should be installed
+
+  Scenario: User 'vagrant' exists
+    * I run "su - vagrant -c 'echo ${SHELL}'"
+    * I should see "/bin/bash" in the output
 
   Scenario: Ruby 1.9.3-p374 is installed
     * I run "su - vagrant -c 'ruby -v'"
