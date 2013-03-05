@@ -48,5 +48,6 @@ file "/etc/sudoers.d/%s" % [
   content "%s ALL=NOPASSWD:ALL" % [
     node['user']
   ]
+  mode "0440"
   action :create
 end
