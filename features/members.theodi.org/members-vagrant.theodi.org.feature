@@ -63,3 +63,8 @@ Feature: Provision a fully-operational battlestation^W member.theodi.org node fo
     * I run "redis-server -h"
     * I should not see "command not found" in the output
     * service "redis" should be running
+
+  Scenario: Code has *not* been deployed
+    When I run "ls /var/www/members.theodi.org/"
+    Then I should see "No such file or directory" in the output
+
