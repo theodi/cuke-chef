@@ -149,7 +149,6 @@ if node.chef_environment == 'production'
   end
 
 
-## rake assets:precompile ???
 ## also RAILS_ENV issues, also had to set
 ##      config.serve_static_assets = true
 ## nginx should really be doing this
