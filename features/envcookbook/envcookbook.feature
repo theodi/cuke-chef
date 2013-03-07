@@ -40,7 +40,6 @@ Feature: Construct an environment-dependent, machine-wide .env file
     When I run "hostname"
     Then I should see "env-test" in the output
 
-
   Scenario: The env file exists
     * file "/home/env/env" should exist
 
