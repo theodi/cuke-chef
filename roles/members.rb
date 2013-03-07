@@ -1,7 +1,10 @@
 name 'members'
 
 default_attributes 'user' => 'members',
-                   'ruby' => '1.9.3-p374'
+                   'group' => 'members',
+                   'ruby' => '1.9.3-p374',
+                   'project_fqdn' => 'members.theodi.org',
+                   'git_project' => 'member-directory'
 
 run_list 'apt',
          'build-essential',
@@ -11,6 +14,10 @@ run_list 'apt',
          'odi-xml',
          'xslt',
          'libcurl',
+         'nodejs',
+         'mysql::client',
          'sqlite::dev',
          'redisio::install',
-         'redisio::enable'
+         'redisio::enable',
+         'nginx',
+         'odi-deployment'
