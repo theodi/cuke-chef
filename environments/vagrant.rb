@@ -1,6 +1,9 @@
 name 'vagrant'
 
-override_attributes 'user' => 'vagrant'
+default_attributes 'RACK_ENV' => 'development'
+
+override_attributes 'user' => 'vagrant',
+                    'group' => 'vagrant'
 
 cookbook 'apt', '= 1.9.0'
 cookbook 'build-essential', '= 1.3.4'
