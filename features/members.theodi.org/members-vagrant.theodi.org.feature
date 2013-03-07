@@ -58,6 +58,8 @@ Feature: Provision a fully-operational battlestation^W member.theodi.org node fo
     * package "libxslt1-dev" should be installed
     * package "libcurl4-openssl-dev" should be installed
     * package "libsqlite3-dev" should be installed
+    When I run "node -h"
+    Then I should not see "command not found" in the output
 
   Scenario: Redis server is installed
     * I run "redis-server -h"
