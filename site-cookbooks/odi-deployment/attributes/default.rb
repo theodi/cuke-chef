@@ -1,0 +1,1 @@
+default['thin_concurrency'] = 1
