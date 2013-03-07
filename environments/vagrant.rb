@@ -1,6 +1,7 @@
 name 'vagrant'
 
-default_attributes 'RACK_ENV' => 'development'
+default_attributes 'ENV' => 'development',
+                   'RACK_ENV' => 'development'
 
 override_attributes 'user' => 'vagrant',
                     'group' => 'vagrant'
