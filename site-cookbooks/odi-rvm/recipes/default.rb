@@ -36,8 +36,4 @@ node.set['rvm']['user_installs'] = [
   }
 ]
 
-#node['rvm']['rubies'] = [
-#  "ruby-1.9.3"
-#]
-
 include_recipe "rvm::user_install"
