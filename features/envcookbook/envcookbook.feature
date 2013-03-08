@@ -46,5 +46,11 @@ Feature: Construct an environment-dependent, machine-wide .env file
   Scenario: The env file contains the correct stuff
     When I run "cat /home/env/env"
     Then I should see "JENKINS_URL: http://jenkins.theodi.org" in the output
+    And I should not see "CONTENT_" in the output
     And I should see "RESQUE_REDIS_HOST: localhost" in the output
-    And I should see "LEFTRONIC_GITHUB_OUTGOING_PRS:" in the output
+    And I should see "LEFTRONIC_GITHUB_OUTGOING_PRS: d" in the output
+    And I should see "COURSES_TARGET_URL: http://151" in the output
+    And I should see "TRELLO_DEV_KEY: a1" in the output
+    And I should see "GITHUB_OUATH_TOKEN: 18" in the output
+    And I should not see "GOOGLE_ANALYTICS_TRACKER" in the output
+

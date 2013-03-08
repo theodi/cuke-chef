@@ -1,6 +1,7 @@
 name 'production'
 
-default_attributes 'RACK_ENV' => 'production'
+default_attributes 'ENV'      => 'production',
+                   'RACK_ENV' => 'production'
 
 cookbook 'apt', '= 1.9.0'
 cookbook 'build-essential', '= 1.3.4'
