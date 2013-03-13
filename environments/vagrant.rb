@@ -13,7 +13,6 @@ override_attributes 'user' => 'vagrant',
 
 cookbook 'apt', '= 1.9.0'
 cookbook 'build-essential', '= 1.3.4'
-cookbook 'chef-client', '= 2.2.0'
 cookbook 'envbuilder', '= 0.1.4'
 cookbook 'git', '= 2.3.0'
 cookbook 'imagemagick', '= 0.2.2'
