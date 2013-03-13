@@ -77,10 +77,40 @@ members ALL=NOPASSWD:ALL
     * package "libmysqlclient-dev" should be installed
     When I run "node -h"
     Then I should not see "command not found" in the output
+    * package "imagemagick" should be installed
 
   Scenario: nginx is installed
     * package "nginx" should be installed
 
+  Scenario: The env file exists
+    * file "/var/www/members.theodi.org/shared/config/env" should exist
+
+  Scenario: The env file contains the correct stuff
+    When I run "cat /var/www/members.theodi.org/shared/config/env"
+    Then I should see "JENKINS_URL: http://jenkins.theodi.org" in the output
+    And I should see "RESQUE_REDIS_HOST: 151" in the output
+    And I should see "EVENTBRITE_API_KEY: IZ" in the output
+    And I should see "CAPSULECRM_DEFAULT_OWNER: ri" in the output
+    And I should see "LEFTRONIC_GITHUB_OUTGOING_PRS: d" in the output
+    And I should see "COURSES_TARGET_URL: http:" in the output
+    And I should see "TRELLO_DEV_KEY: a1" in the output
+    And I should see "GITHUB_OUATH_TOKEN: 18" in the output
+    And I should see "GOOGLE_ANALYTICS_TRACKER: UA-3" in the output
+    And I should see "XERO_PRIVATE_KEY_PATH: /etc" in the output
+
+    @config
+  Scenario: configuration stuff is correct
+    * symlink "/var/www/members.theodi.org/current/config/database.yml" should exist
+    * file "/var/www/members.theodi.org/shared/config/database.yml" should be owned by "members:members"
+    * symlink "/var/www/members.theodi.org/current/.env" should exist
+    When I run "stat -c %N /var/www/members.theodi.org/current/.env"
+    Then I should see "/var/www/members.theodi.org/shared/config/env" in the output
+    When I run "cat /var/www/members.theodi.org/shared/config/database.yml"
+    Then I should see "production:" in the output
+    And I should see "adapter: mysql2" in the output
+    And I should see "port: 3306" in the output
+
+      @deploy
   Scenario: Code is deployed
     * directory "/var/www/members.theodi.org" should exist
     * directory "/var/www/members.theodi.org/releases" should exist
@@ -89,9 +119,6 @@ members ALL=NOPASSWD:ALL
     * directory "/var/www/members.theodi.org/shared/pid" should exist
     * directory "/var/www/members.theodi.org/shared/log" should exist
     * directory "/var/www/members.theodi.org/shared/system" should exist
-    * symlink "/var/www/members.theodi.org/current/config/database.yml" should exist
-    * file "/var/www/members.theodi.org/shared/config/database.yml" should be owned by "members:members"
-    * symlink "/var/www/members.theodi.org/current/.env" should exist
 
   Scenario: Migrations have happened
     # there's no easy way to test for this
@@ -109,3 +136,44 @@ members ALL=NOPASSWD:ALL
     And I should see "export PORT=3000" in the output
 #    And I should see "RACK_ENV=production" in the output
     And I should see "/var/log/member-directory/thin-1.log" in the output
+
+  Scenario: nginx virtualhost exists
+    * file "/etc/nginx/sites-available/members.theodi.org" should exist
+
+  Scenario: virtualhost should contain correct stuff
+    * file "/etc/nginx/sites-available/members.theodi.org" should contain
+    """
+upstream member-directory {
+  server 127.0.0.1:3000;
+}
+
+server {
+  listen 80;
+  server_name members.theodi.org;
+  access_log /var/log/nginx/members.theodi.org.log;
+  error_log /var/log/nginx/members.theodi.org.err;
+  location / {
+    try_files $uri @backend;
+  }
+
+  location ~ ^/(assets)/  {
+    root /var/www/members.theodi.org/current/public/;
+    gzip_static on; # to serve pre-gzipped version
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  location @backend {
+    proxy_set_header X-Forwarded-Proto 'http';
+    proxy_set_header Host $server_name;
+    proxy_pass http://member-directory;
+  }
+}
+    """
+
+  Scenario: virtualhost should be symlinked
+    * symlink "/etc/nginx/sites-enabled/members.theodi.org" should exist
+
+
+  Scenario: nginx should be restarted
+    # we can't really test this
