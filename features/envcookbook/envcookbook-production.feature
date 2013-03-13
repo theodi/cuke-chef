@@ -47,6 +47,7 @@ Feature: Construct an environment-dependent, machine-wide .env file
     When I run "cat /home/env/env"
     Then I should see "JENKINS_URL: http://jenkins.theodi.org" in the output
     And I should see "RESQUE_REDIS_HOST: 151" in the output
+    And I should see "RESQUE_REDIS_PORT: 6379" in the output
     And I should see "EVENTBRITE_API_KEY: IZ" in the output
     And I should see "CAPSULECRM_DEFAULT_OWNER: ri" in the output
     And I should see "LEFTRONIC_GITHUB_OUTGOING_PRS: d" in the output
