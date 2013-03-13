@@ -155,7 +155,7 @@ if node.chef_environment == 'production'
     end
 
     restart_command "sudo service #{node['git_project']} restart"
-    action :force_deploy
+    action :deploy
   end
 
 
