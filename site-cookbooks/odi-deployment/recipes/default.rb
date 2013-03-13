@@ -27,8 +27,6 @@
 include_recipe 'git'
 
 if node.chef_environment == 'production'
-
-
   root_dir = "/var/www/%s" % [
       node['project_fqdn']
   ]
@@ -48,13 +46,14 @@ if node.chef_environment == 'production'
       owner node['user']
       group node['group']
       action :create
+      mode "0775"
       recursive true
     end
   end
 
   [
-      "database.yml",
-      "env"
+      "database.yml"
+#      "env"
   ].each do |f|
     p   = "%s/%s/%s" % [
         root_dir,
@@ -67,7 +66,8 @@ if node.chef_environment == 'production'
       begin
         dbi = data_bag_item("%s" % [
             node['git_project']
-        ],                  f.split('.').first)
+        ],
+        f.split('.').first)
 
         content dbi["content"].to_yaml
 
@@ -80,12 +80,14 @@ if node.chef_environment == 'production'
   deploy_revision root_dir do
     user node['user']
     group node['group']
-    environment "RACK_ENV" => node['RACK_ENV'] #,
-                                               #              "rvmsudo_secure_path" => 1
+    environment "RACK_ENV" => node['RACK_ENV']
+#              "rvmsudo_secure_path" => 1
 
     repo "git://github.com/theodi/%s.git" % [
         node['git_project']
     ]
+
+    revision node['deploy']['revision']
 
     symlink_before_migrate(
         {
@@ -99,6 +101,12 @@ if node.chef_environment == 'production'
       running_deploy_user       = new_resource.user
       bundler_depot             = new_resource.shared_path + '/bundle'
 
+#      script "trust rvmrc" do
+#        code <<-EOF
+#        sudo - #{running_deploy_user} -c 'rvm rvmrc trust #{current_release_directory}'
+#      EOF
+#      end
+
       script 'Bundling the gems' do
         interpreter 'bash'
         cwd current_release_directory
@@ -111,7 +119,9 @@ if node.chef_environment == 'production'
       end
     end
 
-    migration_command "bundle exec rake db:migrate"
+#    migration_command "bundle exec rake db:migrate"
+    migration_command node["migration_command"]
+# but sometimes rake db:migrate:with_data
     migrate true
 
     before_restart do
