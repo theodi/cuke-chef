@@ -7,7 +7,7 @@ gem "cucumber-chef",
 
 gem "lolcommits"
 gem "chef", "10.24.0"
-gem "librarian", :git => "git://github.com/applicationsonline/librarian.git"
+gem "librarian" #, :git => "git://github.com/applicationsonline/librarian.git"
 #gem "chef-rewind", :git => "git://github.com/bryanwb/chef-rewind.git"
 #gem "vagrant-butcher", :git => "git://github.com/cassianoleal/vagrant-butcher.git"
 
