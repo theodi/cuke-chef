@@ -18,6 +18,7 @@ cookbook 'git'
 cookbook 'users'
 cookbook 'nodejs'
 cookbook 'build-essential'
+cookbook 'imagemagick'
 
 # ODI books here
 #cookbook 'rvm', :git => 'git://github.com/theodi/chef-rvm.git'
