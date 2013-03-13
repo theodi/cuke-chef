@@ -4,7 +4,12 @@ default_attributes 'ENV' => 'development',
                    'RACK_ENV' => 'development'
 
 override_attributes 'user' => 'vagrant',
-                    'group' => 'vagrant'
+                    'group' => 'vagrant',
+                    'envbuilder' => {
+                        'owner' => 'vagrant',
+                        'group' => 'vagrant',
+                        'base_dir' => '/home/env/'
+                    }
 
 cookbook 'apt', '= 1.9.0'
 cookbook 'build-essential', '= 1.3.4'
