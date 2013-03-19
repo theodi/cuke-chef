@@ -67,7 +67,7 @@ if node.chef_environment == 'production'
         dbi = data_bag_item("%s" % [
             node['git_project']
         ],
-        f.split('.').first)
+                            f.split('.').first)
 
         content dbi["content"].to_yaml
 
@@ -80,7 +80,8 @@ if node.chef_environment == 'production'
   deploy_revision root_dir do
     user node['user']
     group node['group']
-    environment "RACK_ENV" => node['RACK_ENV']
+    environment "RACK_ENV" => node['RACK_ENV'],
+                "HOME"     => "/home/#{user}"
 #              "rvmsudo_secure_path" => 1
 
     repo "git://github.com/theodi/%s.git" % [
