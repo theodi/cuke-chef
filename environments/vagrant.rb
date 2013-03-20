@@ -1,13 +1,16 @@
 name 'vagrant'
 
-default_attributes 'ENV' => 'development',
-                   'RACK_ENV' => 'development'
+default_attributes 'ENV'         => 'development',
+                   'RACK_ENV'    => 'development',
+                   'chef_client' => {
+                       'server_url' => 'https://chef.theodi.org'
+                   }
 
-override_attributes 'user' => 'vagrant',
-                    'group' => 'vagrant',
+override_attributes 'user'       => 'vagrant',
+                    'group'      => 'vagrant',
                     'envbuilder' => {
-                        'owner' => 'vagrant',
-                        'group' => 'vagrant',
+                        'owner'    => 'vagrant',
+                        'group'    => 'vagrant',
                         'base_dir' => '/home/env/'
                     }
 
