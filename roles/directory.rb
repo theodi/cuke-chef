@@ -20,6 +20,7 @@ override_attributes 'envbuilder'  => {
 
 run_list 'apt',
          'chef-client',
+         'chef-client::config',
          'build-essential',
          'git',
          'imagemagick',
