@@ -1,7 +1,10 @@
 name 'production'
 
 default_attributes 'ENV'      => 'production',
-                   'RACK_ENV' => 'production'
+                   'RACK_ENV' => 'production',
+                   'chef_client' => {
+                       'server_url' => 'https://chef.theodi.org'
+                   }
 
 cookbook 'apt', '= 1.9.0'
 cookbook 'build-essential', '= 1.3.4'
