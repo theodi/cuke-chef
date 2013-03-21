@@ -15,8 +15,10 @@ Feature: We have a functioning website
     And the "apache2::mod_rewrite" recipe has been added to the "theodi-org" run list
     And the "php::module_gd" recipe has been added to the "theodi-org" run list
     And the "php::module_mysql" recipe has been added to the "theodi-org" run list
-#    And the "php::module_memcached" recipe has been added to the "theodi-org" run list
+    And the "odi-php-memcached" recipe has been added to the "theodi-org" run list
     And the "git" recipe has been added to the "theodi-org" run list
+    And the "postfix" recipe has been added to the "theodi-org" run list
+    And the "drush" recipe has been added to the "theodi-org" run list
 
     And the chef-client has been run on "theodi-org"
 
@@ -43,19 +45,22 @@ Feature: We have a functioning website
 
   Scenario: php5-mysql is installed
     * package "php5-mysql" should be installed
-#
-#  Scenario: memcached is installed
-#    * package "php5-memcached" should be installed
 
-#  Scenario: code is deployed
-#    * directory "/var/www/theodi.org" should exist
-#    * directory "/var/www/theodi.org" should be owned by "www-data:www-data"
-#    * directory "/var/www/theodi.org/sites/all/modules/course_list" should exist
-#
+  Scenario: memcached is installed
+    * package "php5-memcached" should be installed
 
-#  Scenario: postfix is installed
-#    * package "postfix" is installed
-#
+  Scenario: postfix is installed
+    * package "postfix" should be installed
+
+  Scenario: drush is installed
+    When I run "drush -v | grep version"
+    Then I should see "5." in the output
+
+  Scenario: code is deployed
+    * directory "/var/www/theodi.org" should exist
+    * directory "/var/www/theodi.org" should be owned by "www-data:www-data"
+    * directory "/var/www/theodi.org/sites/all/modules/course_list" should exist
+
 #  Scenario: vhost exists
 #    * file "/etc/apache2/sites-available/theodi.org" should exist
 #    * file "/etc/apache2/sites-available/theodi.org" should contain
