@@ -20,6 +20,7 @@ cookbook 'nodejs'
 cookbook 'build-essential'
 cookbook 'imagemagick'
 cookbook 'drush', :git => 'git://github.com/msonnabaum/chef-drush.git'
+cookbook 'postfix'
 
 # ODI books here
 #cookbook 'rvm', :git => 'git://github.com/theodi/chef-rvm.git'
