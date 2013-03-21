@@ -83,6 +83,7 @@ if node.chef_environment == 'production'
     environment "RACK_ENV" => node['RACK_ENV'],
                 "HOME"     => "/home/#{user}"
 #              "rvmsudo_secure_path" => 1
+    keep_releases 10
 
     repo "git://github.com/theodi/%s.git" % [
         node['git_project']
@@ -90,23 +91,20 @@ if node.chef_environment == 'production'
 
     revision node['deploy']['revision']
 
-    symlink_before_migrate(
-        {
-            "config/database.yml" => "config/database.yml",
-            "config/env"          => ".env"
-        }
-    )
-
     before_migrate do
       current_release_directory = release_path
       running_deploy_user       = new_resource.user
       bundler_depot             = new_resource.shared_path + '/bundle'
 
-#      script "trust rvmrc" do
-#        code <<-EOF
-#        sudo - #{running_deploy_user} -c 'rvm rvmrc trust #{current_release_directory}'
-#      EOF
-#      end
+      script 'link me some links' do
+        interpreter 'bash'
+        cwd current_release_directory
+        user running_deploy_user
+        code <<-EOF
+        ln -sf ../../shared/config/env .env
+        ln -sf ../../shared/config/database.yml config/
+        EOF
+      end
 
       script 'Bundling the gems' do
         interpreter 'bash'
@@ -118,16 +116,6 @@ if node.chef_environment == 'production'
           --path #{bundler_depot}
         EOF
       end
-    end
-
-#    migration_command "bundle exec rake db:migrate"
-    migration_command node["migration_command"]
-# but sometimes rake db:migrate:with_data
-    migrate true
-
-    before_restart do
-      current_release_directory = release_path
-      running_deploy_user       = new_resource.user
 
       script 'Precompile the assets' do
         interpreter 'bash'
@@ -136,7 +124,16 @@ if node.chef_environment == 'production'
         code <<-EOF
         bundle exec rake assets:precompile
         EOF
+        # Redis configuration not set!!!
       end
+    end
+
+    migration_command node["migration_command"]
+    migrate true
+
+    before_restart do
+      current_release_directory = release_path
+      running_deploy_user       = new_resource.user
 
       script 'Generate startup scripts with Foreman' do
         interpreter 'bash'
@@ -158,14 +155,5 @@ if node.chef_environment == 'production'
     restart_command "sudo service #{node['git_project']} restart"
     action :deploy
   end
-
-
-## also RAILS_ENV issues, also had to set
-##      config.serve_static_assets = true
-## nginx should really be doing this
-##  before_restart "rvmsudo foreman export upstart /etc/init"
-##  restart_command "service member-directory restart"
-#  action :force_deploy
-#end
 
 end
