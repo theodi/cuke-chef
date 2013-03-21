@@ -19,6 +19,7 @@ Feature: We have a functioning website
     And the "git" recipe has been added to the "theodi-org" run list
     And the "postfix" recipe has been added to the "theodi-org" run list
     And the "drush" recipe has been added to the "theodi-org" run list
+    And the "odi-website-deploy" recipe has been added to the "theodi-org" run list
 
     And the chef-client has been run on "theodi-org"
 
@@ -61,6 +62,12 @@ Feature: We have a functioning website
     * directory "/var/www/theodi.org" should be owned by "www-data:www-data"
     * directory "/var/www/theodi.org/sites/all/modules/course_list" should exist
 
+ Scenario: settings file has correct stuff
+   When I run "cat /var/www/theodi.org/sites/default/settings.php"
+   Then I should see "$base_url = 'http://theodi.org';" in the output
+   And I should see "'database' => 'theodi_org'" in the output
+   And I should see "'username' => 'theodi_org'" in the output
+#
 #  Scenario: vhost exists
 #    * file "/etc/apache2/sites-available/theodi.org" should exist
 #    * file "/etc/apache2/sites-available/theodi.org" should contain
@@ -81,15 +88,6 @@ Feature: We have a functioning website
 #    """
 #    * symlink "/etc/apache2/sites-enabled/theodi.org" should exist
 #
-# Scenario: settings file has correct stuff
-#   When I run "cat /var/www/theodi.org/sites/default/settings.php"
-#   Then I should see "$base_url = 'http://theodi.org';" in the output
-#   And I should see "'database' => 'theodi_org'" in the output
-#   And I should see "'username' => 'theodi_org'" in the output
-#
-# Scenario: drush is installed
-#   When I run "drush -v | grep version"
-#   Then I should see "5." in the output
-#
 #  Scenario: icinga is installed
 #    * package "icinga-client" should be installed
+# This maybe: https://github.com/Bigpoint/icinga
