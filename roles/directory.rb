@@ -15,6 +15,8 @@ override_attributes 'envbuilder'  => {
                     'chef_client' => {
                         'interval' => 1800,
                         'splay'    => 300
+                        'interval' => 300,
+                         'splay'     => 30
                     }
 
 
