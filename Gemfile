@@ -17,3 +17,5 @@ gem "librarian" #, :git => "git://github.com/applicationsonline/librarian.git"
 
 # THIS IS REQUIRED TO BOOTSTRAP RACKSPACE NODES
 #gem "fog", "1.8.0"
+
+gem 'foodcritic'
