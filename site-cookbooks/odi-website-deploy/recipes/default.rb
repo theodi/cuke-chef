@@ -24,14 +24,43 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-git "/var/www/theodi.org" do
-  repository "git://github.com/theodi/odi-website-drupal.git"
-#  user "www-data"
-#  group "www-data"
-  action :sync
-end
-
 directory "/var/www/theodi.org" do
   user "www-data"
   group "www-data"
+end
+
+git "/var/www/theodi.org" do
+  repository "git://github.com/theodi/odi-website-drupal.git"
+  user "www-data"
+  group "www-data"
+  action :sync
+end
+
+dbi = data_bag_item "website", "credentials"
+
+db = dbi["database"]
+
+template "/var/www/theodi.org/sites/default/settings.php" do
+  source "settings.php.erb"
+  variables(
+      :base_url => "http://theodi.org",
+      :database => db["database"],
+      :db_user => db["username"],
+      :db_pass => db["password"],
+      :db_host => db["host"]
+  )
+  user "www-data"
+  group "www-data"
+end
+
+template "/etc/apache2/sites-available/theodi.org" do
+  source "vhost.erb"
+  variables(
+      :server_name => "theodi.org",
+      :server_alias => "www.theodi.org"
+  )
+end
+
+apache_site "theodi.org" do
+  action :enable
 end
