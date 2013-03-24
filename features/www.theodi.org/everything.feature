@@ -10,16 +10,17 @@ Feature: We have a functioning website
     And all of the cookbooks in "./cookbooks" have been uploaded
     And all of the cookbooks in "./site-cookbooks" have been uploaded
 
+    And the following databags have been updated:
+      | databag | databag_path        |
+      | website | ./data_bags/website |
+
+    And the following roles have been uploaded:
+      | role | role_path |
+      | *.rb | ./roles/  |
+
     And the "chef-client::service" recipe has been added to the "theodi-org" run list
-    And the "apache2::mod_php5" recipe has been added to the "theodi-org" run list
-    And the "apache2::mod_rewrite" recipe has been added to the "theodi-org" run list
-    And the "php::module_gd" recipe has been added to the "theodi-org" run list
-    And the "php::module_mysql" recipe has been added to the "theodi-org" run list
-    And the "odi-php-memcached" recipe has been added to the "theodi-org" run list
-    And the "git" recipe has been added to the "theodi-org" run list
-    And the "postfix" recipe has been added to the "theodi-org" run list
-    And the "drush" recipe has been added to the "theodi-org" run list
-    And the "odi-website-deploy" recipe has been added to the "theodi-org" run list
+
+    And the "odi-drupal" role has been added to the "theodi-org" run list
 
     And the chef-client has been run on "theodi-org"
 
@@ -62,32 +63,34 @@ Feature: We have a functioning website
     * directory "/var/www/theodi.org" should be owned by "www-data:www-data"
     * directory "/var/www/theodi.org/sites/all/modules/course_list" should exist
 
- Scenario: settings file has correct stuff
-   When I run "cat /var/www/theodi.org/sites/default/settings.php"
-   Then I should see "$base_url = 'http://theodi.org';" in the output
-   And I should see "'database' => 'theodi_org'" in the output
-   And I should see "'username' => 'theodi_org'" in the output
-#
-#  Scenario: vhost exists
-#    * file "/etc/apache2/sites-available/theodi.org" should exist
-#    * file "/etc/apache2/sites-available/theodi.org" should contain
-#    """
-#<VirtualHost *:80>
-#  ServerName theodi.org
-#  ServerAlias www.theodi.org
-#  DocumentRoot /var/www/theodi.org
-#  <Directory /var/www/theodi.org>
-#    Options +FollowSymLinks
-#    AllowOverride All
-#    Order allow,deny
-#    Allow from all
-#  </Directory>
-#  ErrorLog /var/log/apache2/theodi.org.err
-#  CustomLog /var/log/apache2/theodi.org.log Combined
-#</VirtualHost>
-#    """
-#    * symlink "/etc/apache2/sites-enabled/theodi.org" should exist
-#
-#  Scenario: icinga is installed
+  Scenario: settings file has correct stuff
+    When I run "cat /var/www/theodi.org/sites/default/settings.php"
+    Then I should see "\$base_url = 'http://theodi.org';" in the output
+    And I should see "'database' => 'theodi_org'" in the output
+    And I should see "'username' => 'theodi_org'" in the output
+    And I should see "\$conf\['cache_default_class'\] = 'MemCacheDrupal';" in the output
+
+  Scenario: vhost exists
+    * file "/etc/apache2/sites-available/theodi.org" should exist
+    * file "/etc/apache2/sites-available/theodi.org" should contain
+    """
+<VirtualHost *:80>
+  ServerName theodi.org
+  ServerAlias www.theodi.org
+  DocumentRoot /var/www/theodi.org
+  <Directory /var/www/theodi.org>
+    Options +FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+  </Directory>
+  ErrorLog /var/log/apache2/theodi.org.err
+  CustomLog /var/log/apache2/theodi.org.log Combined
+</VirtualHost>
+    """
+    * symlink "/etc/apache2/sites-enabled/theodi.org" should exist
+
+  @icinga
+  Scenario: icinga is installed
 #    * package "icinga-client" should be installed
 # This maybe: https://github.com/Bigpoint/icinga
