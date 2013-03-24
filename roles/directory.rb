@@ -14,11 +14,12 @@ override_attributes 'envbuilder'  => {
 },
                     'chef_client' => {
                         'interval' => 300,
-                         'splay'     => 30
+                        'splay'    => 30
                     }
 
 
 run_list "role[base]",
+         "recipe[chef-client]",
          "recipe[build-essential]",
          "recipe[imagemagick]",
          "recipe[nginx]",
