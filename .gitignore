@@ -11,4 +11,5 @@ id_rsa*
 .live-chef/
 data_bags/member-directory
 data_bags/envs
+data_bags/website
 .vagrant*
