@@ -6,6 +6,7 @@ Feature: We have a functioning website
     And "theodi-org" is running "ubuntu" "precise"
     And "theodi-org" should be persistent
     And "theodi-org" has been provisioned
+    And "theodi-org" is in the "cucumber" environment
 
     And all of the cookbooks in "./cookbooks" have been uploaded
     And all of the cookbooks in "./site-cookbooks" have been uploaded
@@ -13,6 +14,10 @@ Feature: We have a functioning website
     And the following databags have been updated:
       | databag | databag_path        |
       | website | ./data_bags/website |
+
+    And the following environment has been uploaded:
+      | environment | environment_path |
+      | cucumber.rb | ./environments/  |
 
     And the following roles have been uploaded:
       | role | role_path |
