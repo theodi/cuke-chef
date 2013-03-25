@@ -102,4 +102,5 @@ Feature: We have a functioning website
   @icinga
   Scenario: icinga is installed
 #    * package "icinga-client" should be installed
-# This maybe: https://github.com/Bigpoint/icinga
+# This maybe: https://github.com/Bigpoint/icinga  Scenario: ntp is installed
+    * package "ntp" should be installed
