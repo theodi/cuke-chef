@@ -63,6 +63,9 @@ Feature: We have a functioning website
     When I run "drush -v | grep version"
     Then I should see "5." in the output
 
+  Scenario: chef-client is running
+    * process "chef-client" should be running
+
   Scenario: code is deployed
     * directory "/var/www/theodi.org" should exist
     * directory "/var/www/theodi.org" should be owned by "www-data:www-data"
