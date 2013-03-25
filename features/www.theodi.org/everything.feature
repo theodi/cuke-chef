@@ -77,6 +77,7 @@ Feature: We have a functioning website
     And I should see "'database' => 'theodi_org'" in the output
     And I should see "'username' => 'theodi_org'" in the output
     And I should see "\$conf\['cache_default_class'\] = 'MemCacheDrupal';" in the output
+    And file "/var/www/theodi.org/sites/default/settings.php" should be owned by "www-data:www-data"
 
   Scenario: vhost exists
     * file "/etc/apache2/sites-available/theodi.org" should exist
