@@ -5,7 +5,10 @@ default_attributes 'user'              => 'directory',
                    'ruby'              => '1.9.3-p374',
                    'project_fqdn'      => 'directory.theodi.org',
                    'git_project'       => 'member-directory',
-                   'migration_command' => 'bundle exec rake db:migrate:with_data'
+                   'migration_command' => 'bundle exec rake db:migrate data:migrate',
+                   '301_redirects'     => [
+                       'members.theodi.org'
+                   ]
 
 override_attributes 'envbuilder'  => {
     'base_dir' => '/var/www/directory.theodi.org/shared/config',
@@ -29,10 +32,12 @@ run_list "role[base]",
          "recipe[odi-nginx]",
          "recipe[xslt]",
          "recipe[libcurl]",
-         "recipe[nodejs]",
+         "recipe[nodejs::install_from_package]",
          "recipe[mysql::client]",
          "recipe[sqlite::dev]",
-         "recipe[redisio::install]",
-         "recipe[redisio::enable]",
+         #         "recipe[redisio::install]",
+         #         "recipe[redisio::enable]",
+         "recipe[redis]",
          "recipe[envbuilder]",
-         "recipe[odi-deployment]"
+         "recipe[odi-deployment]",
+         "recipe[odi-shim]"
