@@ -194,13 +194,12 @@ if [
           -a #{node['git_project']} \
           -u #{node['user']} \
           -t config/foreman \
-          -c thin=#{node['thin_concurrency']} \
           -p 3000 \
           upstart /etc/init
         EOF
       end
     end
-
+#          -c thin=#{node['thin_concurrency']} \
     restart_command "sudo service #{node['git_project']} restart"
     action :deploy
   end
