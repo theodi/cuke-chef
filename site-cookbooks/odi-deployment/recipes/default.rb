@@ -26,7 +26,10 @@
 
 include_recipe 'git'
 
-if node.chef_environment == 'production'
+if [
+    'production',
+    'cucumber'
+].include? node.chef_environment
   root_dir = "/var/www/%s" % [
       node['project_fqdn']
   ]
@@ -96,7 +99,26 @@ if node.chef_environment == 'production'
       running_deploy_user       = new_resource.user
       bundler_depot             = new_resource.shared_path + '/bundle'
 
-      script 'link me some links' do
+      #script "FFS RVM" do
+      #  interpreter 'bash'
+      #  user running_deploy_user
+      #  code <<-EOF
+      #  echo "/home/#{running_deploy_user}/.rvm/bin/rvm rvmrc trust #{current_release_directory}" > /tmp/ffs
+      #  /home/#{running_deploy_user}/.rvm/bin/rvm rvmrc trust #{current_release_directory}
+      #  EOF
+      #end
+      #
+      #script "Don't use .rvmrc no more" do
+      #  interpreter 'bash'
+      #  cwd current_release_directory
+      #  user running_deploy_user
+      #  code <<-EOF
+      #  cd #{current_release_directory}
+      #  /home/#{running_deploy_user}/.rvm/bin/rvm rvmrc to .ruby-version
+      #  EOF
+      #end
+
+      script 'Link me some links' do
         interpreter 'bash'
         cwd current_release_directory
         user running_deploy_user
@@ -129,7 +151,7 @@ if node.chef_environment == 'production'
     end
 
     migration_command node["migration_command"]
-    migrate true
+    migrate node['deploy']['migrate']
 
     before_restart do
       current_release_directory = release_path
@@ -153,7 +175,7 @@ if node.chef_environment == 'production'
     end
 
     restart_command "sudo service #{node['git_project']} restart"
-    action :deploy
+    action :force_deploy
   end
 
 end
