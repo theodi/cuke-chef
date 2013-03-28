@@ -54,31 +54,31 @@ if [
     end
   end
 
-  [
-      "database.yml"
-#      "env"
-  ].each do |f|
-    p   = "%s/%s/%s" % [
-        root_dir,
-        "shared/config",
-        f
-    ]
-    dbi = nil
-    file p do
-      action :create
-      begin
-        dbi = data_bag_item("%s" % [
-            node['git_project']
-        ],
-                            f.split('.').first)
-
-        content dbi["content"].to_yaml
-
-      rescue Net::HTTPServerException
-      end
-    end
-
-  end
+#  [
+#      "database.yml"
+##      "env"
+#  ].each do |f|
+#    p   = "%s/%s/%s" % [
+#        root_dir,
+#        "shared/config",
+#        f
+#    ]
+#    dbi = nil
+#    file p do
+#      action :create
+#      begin
+#        dbi = data_bag_item("%s" % [
+#            node['git_project']
+#        ],
+#                            f.split('.').first)
+#
+#        content dbi["content"].to_yaml
+#
+#      rescue Net::HTTPServerException
+#      end
+#    end
+#
+#  end
 
   deploy_revision root_dir do
     user node['user']
@@ -93,6 +93,7 @@ if [
     ]
 
     revision node['deploy']['revision']
+    symlink_before_migrate.clear
 
     before_migrate do
       current_release_directory = release_path
@@ -118,13 +119,39 @@ if [
       #  EOF
       #end
 
+      [
+          "database.yml"
+      ].each do |f|
+        p   = "%s/%s/%s" % [
+#            root_dir,
+            current_release_directory,
+            "config",
+            f
+        ]
+        dbi = nil
+        file p do
+          action :create
+          begin
+            dbi = data_bag_item(
+                "%s" % [
+                    node['git_project']
+                ],
+                f.split('.').first
+            )
+
+            content dbi["content"].to_yaml
+
+          rescue Net::HTTPServerException
+          end
+        end
+      end
+
       script 'Link me some links' do
         interpreter 'bash'
         cwd current_release_directory
         user running_deploy_user
         code <<-EOF
         ln -sf ../../shared/config/env .env
-        ln -sf ../../shared/config/database.yml config/
         EOF
       end
 
@@ -175,7 +202,7 @@ if [
     end
 
     restart_command "sudo service #{node['git_project']} restart"
-    action :force_deploy
+    action :deploy
   end
 
 end
