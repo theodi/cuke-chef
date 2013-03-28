@@ -56,3 +56,27 @@ link "/etc/nginx/sites-enabled/%s" % [
 
   notifies :restart, "service[nginx]"
 end
+
+if node["301_redirects"]
+  node["301_redirects"].each do |r|
+    template "/etc/nginx/sites-available/%s" % [
+        r
+    ] do
+      source "redirect.erb"
+      variables(
+          :this => node["project_fqdn"],
+          :that => r
+      )
+    end
+
+    link "/etc/nginx/sites-enabled/%s" % [
+        r
+    ] do
+      to "/etc/nginx/sites-available/%s" % [
+          r
+      ]
+
+      notifies :restart, "service[nginx]"
+    end
+  end
+end
