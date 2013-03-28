@@ -13,3 +13,7 @@ data_bags/member-directory
 data_bags/envs
 data_bags/website
 .vagrant*
+
+*.ppm
+
+*.pl
