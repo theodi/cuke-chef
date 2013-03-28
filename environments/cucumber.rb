@@ -1,7 +1,5 @@
 name 'cucumber'
 
-default_attributes 'ENV'      => 'development',
-                   'RACK_ENV' => 'development'
 #                   'chef_client' => {
 #                       'conf_dir' => '/tmp'
 #                   }
