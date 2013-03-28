@@ -1,0 +1,7 @@
+server {
+  listen 80;
+  server_name <%= @that %>;
+  access_log /var/log/nginx/<%= @that %>.log;
+  error_log /var/log/nginx/<%= @that %>.err;
+  rewrite  ^/(.*)$ http://<%= @this %>/$1 permanent;
+}
