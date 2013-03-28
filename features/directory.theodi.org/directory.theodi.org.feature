@@ -11,14 +11,14 @@ Feature: Build a fully-operational battlestation^W directory.theodi.org node fro
     * "directory" should be persistent
 
     * the following environment has been uploaded:
-      | environment   | environment_path |
-      | production.rb | ./environments/  |
+      | environment | environment_path |
+      | cucumber.rb | ./environments/  |
 
     * the following roles have been uploaded:
       | role         | role_path |
       | directory.rb | ./roles/  |
 
-    * "directory" is in the "production" environment
+    * "directory" is in the "cucumber" environment
     * "directory" has been provisioned
 
     * all of the cookbooks in "./cookbooks" have been uploaded
@@ -50,11 +50,11 @@ Feature: Build a fully-operational battlestation^W directory.theodi.org node fro
     * I run "su - directory -c 'echo ${SHELL}'"
     * I should see "/bin/bash" in the output
 
- Scenario: User can sudo with no password
+  Scenario: User can sudo with no password
   # we cannot test this properly on Vagrant!
   #  * I run "su - directory -c 'sudo bash'"
   #  * I should not see "password for directory" in the output
-# So we compromise with this
+  # So we compromise with this
     * file "/etc/sudoers.d/directory" should exist
     * file "/etc/sudoers.d/directory" should contain
     """
@@ -99,17 +99,6 @@ directory ALL=NOPASSWD:ALL
     And I should see "GOOGLE_ANALYTICS_TRACKER: UA-3" in the output
     And I should see "XERO_PRIVATE_KEY_PATH: /etc" in the output
 
-  Scenario: configuration stuff is correct
-    * symlink "/var/www/directory.theodi.org/current/config/database.yml" should exist
-    * file "/var/www/directory.theodi.org/shared/config/database.yml" should be owned by "directory:directory"
-    * symlink "/var/www/directory.theodi.org/current/.env" should exist
-    When I run "stat -c %N /var/www/directory.theodi.org/current/.env"
-    Then I should see "/var/www/directory.theodi.org/shared/config/env" in the output
-    When I run "cat /var/www/directory.theodi.org/shared/config/database.yml"
-    Then I should see "production:" in the output
-    And I should see "adapter: mysql2" in the output
-    And I should see "port: 3306" in the output
-
   Scenario: Code is deployed
     * directory "/var/www/directory.theodi.org" should exist
     * directory "/var/www/directory.theodi.org/releases" should exist
@@ -119,10 +108,17 @@ directory ALL=NOPASSWD:ALL
     * directory "/var/www/directory.theodi.org/shared/log" should exist
     * directory "/var/www/directory.theodi.org/shared/system" should exist
 
-  Scenario: Migrations have happened
-    pending there's no easy way to test for this
+  Scenario: configuration stuff is correct
+    * file "/var/www/directory.theodi.org/current/config/database.yml" should exist
+    * file "/var/www/directory.theodi.org/current/config/database.yml" should be owned by "directory:directory"
+    * symlink "/var/www/directory.theodi.org/current/.env" should exist
+    When I run "stat -c %N /var/www/directory.theodi.org/current/.env"
+    Then I should see "../../shared/config/env" in the output
+    When I run "cat /var/www/directory.theodi.org/current/config/database.yml"
+    Then I should see "production:" in the output
+    And I should see "adapter: mysql2" in the output
+    And I should see "port: 3306" in the output
 
-  @assets
   Scenario: Assets have been compiled
     * directory "/var/www/directory.theodi.org/current/public/assets/" should exist
 
@@ -133,7 +129,7 @@ directory ALL=NOPASSWD:ALL
     When I run "cat /etc/init/member-directory-thin-1.conf"
     Then I should see "exec su - directory" in the output
     And I should see "export PORT=3000" in the output
-    And I should see "RACK_ENV=production" in the output
+#    And I should see "RACK_ENV=production" in the output
     And I should see "/var/log/member-directory/thin-1.log" in the output
 
   Scenario: nginx virtualhost exists
@@ -173,6 +169,24 @@ server {
   Scenario: virtualhost should be symlinked
     * symlink "/etc/nginx/sites-enabled/directory.theodi.org" should exist
 
+  @redirect
+  Scenario: redirecting vhost should redirect
+      * file "/etc/nginx/sites-available/members.theodi.org" should contain
+      """
+server {
+  listen 80;
+  server_name members.theodi.org;
+  access_log /var/log/nginx/members.theodi.org.log;
+  error_log /var/log/nginx/members.theodi.org.err;
+  rewrite  ^/(.*)$ http://directory.theodi.org/$1 permanent;
+}
+      """
+
+  @redirect
+  Scenario: virtualhost should be symlinked
+    * symlink "/etc/nginx/sites-enabled/members.theodi.org" should exist
+
+
 
   Scenario: nginx should be restarted
-    # we can't really test this
+# we can't really test this
