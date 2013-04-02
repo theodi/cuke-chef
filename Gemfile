@@ -1,5 +1,8 @@
 source "http://rubygems.org"
 
+#ruby=ruby-1.9.3-p362
+#ruby-gemset=cuke-chef
+
 gem "cucumber-chef",
 #    :git => "git://github.com/Atalanta/cucumber-chef"
 #    :git => "git@github.com:theodi/cucumber-chef.git"
