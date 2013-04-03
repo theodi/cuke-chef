@@ -98,6 +98,7 @@ directory ALL=NOPASSWD:ALL
     And I should see "GITHUB_OUATH_TOKEN: 18" in the output
     And I should see "GOOGLE_ANALYTICS_TRACKER: UA-3" in the output
     And I should see "XERO_PRIVATE_KEY_PATH: /etc" in the output
+    And I should see "COURSES_RSYNC_PATH: json" in the output
 
   Scenario: Code is deployed
     * directory "/var/www/directory.theodi.org" should exist
@@ -132,9 +133,12 @@ directory ALL=NOPASSWD:ALL
 #    And I should see "RACK_ENV=production" in the output
     And I should see "/var/log/member-directory/thin-1.log" in the output
 
-  Scenario: nginx virtualhost exists
+@nginx
+  Scenario: nginx virtualhosts are correct
+    * symlink "/etc/nginx/sites-enabled/default" should not exist
     * file "/etc/nginx/sites-available/directory.theodi.org" should exist
 
+@nginx
   Scenario: virtualhost should contain correct stuff
     * file "/etc/nginx/sites-available/directory.theodi.org" should contain
     """
@@ -143,7 +147,7 @@ upstream member-directory {
 }
 
 server {
-  listen 80;
+  listen 80 default;
   server_name directory.theodi.org;
   access_log /var/log/nginx/directory.theodi.org.log;
   error_log /var/log/nginx/directory.theodi.org.err;
