@@ -57,6 +57,17 @@ link "/etc/nginx/sites-enabled/%s" % [
   notifies :restart, "service[nginx]"
 end
 
+[
+    '000-default',
+    'default'
+].each do |f|
+  file "/etc/nginx/sites-enabled/%s" % [
+      f
+  ] do
+    action :delete
+  end
+end
+
 if node["301_redirects"]
   node["301_redirects"].each do |r|
     template "/etc/nginx/sites-available/%s" % [
