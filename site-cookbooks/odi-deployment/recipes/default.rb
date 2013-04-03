@@ -87,6 +87,7 @@ if [
                 "HOME"     => "/home/#{user}"
 #              "rvmsudo_secure_path" => 1
     keep_releases 10
+    rollback_on_error true
 
     repo "git://github.com/theodi/%s.git" % [
         node['git_project']
