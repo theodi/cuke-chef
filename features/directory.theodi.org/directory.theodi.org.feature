@@ -29,7 +29,7 @@ Feature: Build a fully-operational battlestation^W directory.theodi.org node fro
       | member-directory | ./data_bags/member-directory |
       | envs             | ./data_bags/envs             |
 
-    * the "chef-client::service" recipe has been added to the "directory" run list
+    * the "chef-client::cron" recipe has been added to the "directory" run list
     * the "directory" role has been added to the "directory" run list
     * the chef-client has been run on "directory"
 
