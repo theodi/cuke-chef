@@ -8,7 +8,15 @@ default_attributes 'user'              => 'directory',
                    'migration_command' => 'bundle exec rake db:migrate data:migrate',
                    '301_redirects'     => [
                        'members.theodi.org'
-                   ]
+                   ],
+                   'chef_client' => {
+                       'cron' => {
+                           'use_cron_d' => true,
+                           'hour' => "*",
+                           'minute' => "*/5",
+                           'log_file' => "/var/log/chef/cron.log"
+                       }
+                   }
 
 override_attributes 'envbuilder'  => {
     'base_dir' => '/var/www/directory.theodi.org/shared/config',
@@ -22,7 +30,7 @@ override_attributes 'envbuilder'  => {
 
 
 run_list "role[base]",
-         "recipe[chef-client]",
+         "recipe[chef-client::cron]",
          "recipe[build-essential]",
          "recipe[imagemagick]",
          "recipe[nginx]",
