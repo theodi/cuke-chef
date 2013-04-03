@@ -3,7 +3,7 @@ upstream <%= @project_name %> {
 }
 
 server {
-  listen 80;
+  listen 80 default;
   server_name <%= @fqdn %>;
   access_log /var/log/nginx/<%= @fqdn %>.log;
   error_log /var/log/nginx/<%= @fqdn %>.err;
