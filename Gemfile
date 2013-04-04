@@ -8,7 +8,7 @@ gem "cucumber-chef",
     :git => "git@github.com:theodi/cucumber-chef.git"
 #    :path => "/Users/sam/Github/cucumber-chef"
 
-gem "vagrant", :git => "git://github.com/mitchellh/vagrant.git"
+#gem "vagrant", :git => "git://github.com/mitchellh/vagrant.git"
 gem "lolcommits"
 #gem "chef", "10.24.0"
 gem "chef"
