@@ -9,12 +9,12 @@ default_attributes 'user'              => 'directory',
                    '301_redirects'     => [
                        'members.theodi.org'
                    ],
-                   'chef_client' => {
+                   'chef_client'       => {
                        'cron' => {
                            'use_cron_d' => true,
-                           'hour' => "*",
-                           'minute' => "*/5",
-                           'log_file' => "/var/log/chef/cron.log"
+                           'hour'       => "*",
+                           'minute'     => "*/5",
+                           'log_file'   => "/var/log/chef/cron.log"
                        }
                    }
 
@@ -43,8 +43,6 @@ run_list "role[base]",
          "recipe[nodejs::install_from_package]",
          "recipe[mysql::client]",
          "recipe[sqlite::dev]",
-         #         "recipe[redisio::install]",
-         #         "recipe[redisio::enable]",
          "recipe[redis]",
          "recipe[envbuilder]",
          "recipe[odi-deployment]",
