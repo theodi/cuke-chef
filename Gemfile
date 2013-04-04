@@ -5,8 +5,8 @@ source "http://rubygems.org"
 
 gem "cucumber-chef",
 #    :git => "git://github.com/Atalanta/cucumber-chef"
-#    :git => "git@github.com:theodi/cucumber-chef.git"
-    :path => "/Users/sam/Github/cucumber-chef"
+    :git => "git@github.com:theodi/cucumber-chef.git"
+#    :path => "/Users/sam/Github/cucumber-chef"
 
 gem "vagrant", :git => "git://github.com/mitchellh/vagrant.git"
 gem "lolcommits"
