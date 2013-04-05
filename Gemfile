@@ -13,3 +13,5 @@ gem "cucumber-chef",
 
 gem "librarian-chef", :git => "https://github.com/applicationsonline/librarian-chef"
 gem 'foodcritic'
+
+gem 'ztk', '1.0.3'
