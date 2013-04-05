@@ -1,14 +1,6 @@
 GIT
-  remote: https://github.com/applicationsonline/librarian-chef
-  revision: c337ee520417ac4492435ad178396d494f408a38
-  specs:
-    librarian-chef (0.0.1)
-      archive-tar-minitar (>= 0.5.2)
-      chef (>= 0.10)
-      librarian (~> 0.1.0)
-
-PATH
-  remote: /Users/sam/Github/cucumber-chef
+  remote: git@github.com:theodi/cucumber-chef.git
+  revision: 68de1275dd0a65700113a2be34d77291f12a52e6
   specs:
     cucumber-chef (2.1.0.rc.10)
       chef (>= 0.10.0)
@@ -21,11 +13,20 @@ PATH
       ubuntu_ami (>= 0.4.0)
       ztk (>= 1.0.0)
 
+GIT
+  remote: https://github.com/applicationsonline/librarian-chef
+  revision: c337ee520417ac4492435ad178396d494f408a38
+  specs:
+    librarian-chef (0.0.1)
+      archive-tar-minitar (>= 0.5.2)
+      chef (>= 0.10)
+      librarian (~> 0.1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.2.12)
-      i18n (~> 0.6)
+    activesupport (3.2.13)
+      i18n (= 0.6.1)
       multi_json (~> 1.0)
     archive-tar-minitar (0.5.2)
     builder (3.2.0)
@@ -51,9 +52,9 @@ GEM
     diff-lcs (1.2.2)
     erubis (2.7.0)
     excon (0.20.1)
-    fog (1.10.0)
+    fog (1.10.1)
       builder
-      excon (~> 0.14)
+      excon (~> 0.20)
       formatador (~> 0.2.0)
       mime-types
       multi_json (~> 1.0)
@@ -85,12 +86,12 @@ GEM
     mixlib-config (1.1.2)
     mixlib-log (1.6.0)
     mixlib-shellout (1.1.0)
-    multi_json (1.6.1)
+    multi_json (1.7.2)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.1)
       net-ssh (>= 2.6.5)
-    net-ssh (2.6.5)
+    net-ssh (2.6.6)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     net-ssh-multi (1.1)
