@@ -92,9 +92,15 @@ calendar ALL=NOPASSWD:ALL
     And I should see "GAPPS_USER_EMAIL: system" in the output
     And I should see "GAPPS_PASSWORD: R8T" in the output
     And I should see "GAPPS_SERVICE_ACCOUNT_EMAIL: 8161" in the output
-    And I should see "GAPPS_PRIVATE_KEY_PATH: /etc/certs/google/98" in the output
+    And I should see "GAPPS_PRIVATE_KEY_PATH: /etc/certs/google/pr" in the output
     And I should see "RESQUE_REDIS_HOST: 151" in the output
     And I should see "RESQUE_REDIS_PASSWORD: W"
+  
+  @certificate  
+  Scenario: The Google apps certificate file is uploaded
+    * file "/etc/certs/google/privatekey.p12" should exist
+    When I run "md5sum /etc/certs/google/privatekey.p12"
+    Then I should see "96b3e4" in the output
 
   Scenario: Code is deployed
     * directory "/var/www/calendar.theodi.org" should exist
