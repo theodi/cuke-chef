@@ -15,8 +15,8 @@ Feature: Build a fully-operational battlestation^W directory.theodi.org node fro
       | cucumber.rb | ./environments/  |
 
     * the following roles have been uploaded:
-      | role         | role_path |
-      | directory.rb | ./roles/  |
+      | role | role_path |
+      | *.rb | ./roles/  |
 
     * "directory" is in the "cucumber" environment
     * "directory" has been provisioned
@@ -130,15 +130,15 @@ directory ALL=NOPASSWD:ALL
     When I run "cat /etc/init/member-directory-thin-1.conf"
     Then I should see "exec su - directory" in the output
     And I should see "export PORT=3000" in the output
-#    And I should see "RACK_ENV=production" in the output
+  #    And I should see "RACK_ENV=production" in the output
     And I should see "/var/log/member-directory/thin-1.log" in the output
 
-@nginx
+  @nginx
   Scenario: nginx virtualhosts are correct
     * symlink "/etc/nginx/sites-enabled/default" should not exist
     * file "/etc/nginx/sites-available/directory.theodi.org" should exist
 
-@nginx
+  @nginx
   Scenario: virtualhost should contain correct stuff
     * file "/etc/nginx/sites-available/directory.theodi.org" should contain
     """
@@ -175,8 +175,8 @@ server {
 
   @redirect
   Scenario: redirecting vhost should redirect
-      * file "/etc/nginx/sites-available/members.theodi.org" should contain
-      """
+    * file "/etc/nginx/sites-available/members.theodi.org" should contain
+    """
 server {
   listen 80;
   server_name members.theodi.org;
@@ -189,7 +189,6 @@ server {
   @redirect
   Scenario: virtualhost should be symlinked
     * symlink "/etc/nginx/sites-enabled/members.theodi.org" should exist
-
 
 
   Scenario: nginx should be restarted
