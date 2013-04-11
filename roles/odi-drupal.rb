@@ -16,4 +16,5 @@ run_list "role[base]",
          "recipe[git]",
          "recipe[postfix]",
          "recipe[drush]",
-         "recipe[odi-website-deploy]"
+         "recipe[odi-website-deploy]",
+         "recipe[odi-fileconveyor]"
