@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<!-- Sources -->
+<sources ignoredDirs="CVS:.svn:tmp">
+<source name="drupal" scanPath="/var/www/theodi.org" documentRoot="/var/www/theodi.org" basePath="/" />
+</sources>
+
+<!-- Servers -->
+<servers>
+<server name="rackspace" transporter="cumulus">
+  <username><%= @username %></username>
+  <api_key><%= @api_key %></api_key>
+  <container><%= @container %></container>
+</server>
+</servers>
+
+<!-- Rules -->
+<rules>
+<rule for="drupal" label="Images" fileDeletionDelayAfterSync="60000000000000000">
+  <filter>
+    <paths>sites/default/files</paths>
+    <extensions>ico:gif:png:jpg:jpeg:svg:swf</extensions>
+  </filter>
+  <processorChain>
+  </processorChain>
+  <destinations>
+    <destination server="rackspace" path="" />
+  </destinations>
+</rule>
+</rules>
+</config>
