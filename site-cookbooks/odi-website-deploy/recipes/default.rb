@@ -36,18 +36,36 @@ git "/var/www/theodi.org" do
   action :sync
 end
 
-dbi = data_bag_item "website", "credentials"
+dbi  = data_bag_item "website", "credentials"
+site = data_bag_item "website", "site"
 
-db = dbi["database"]
+db     = dbi["database"]
+drupal = site["drupal"]
+
+script 'Set up a less restrictive php.ini for Drush to use' do
+  interpreter 'bash'
+  user "root"
+  code <<-EOF
+  mkdir -p /root/.drush/
+  echo "disable_functions =" > /root/.drush/php.ini
+  EOF
+end
+
+template "/var/www/vanilla_drupal.sqlite" do
+  source "vanilla_drupal.sqlite.erb"
+  user "www-data"
+  group "www-data"
+end
 
 template "/var/www/theodi.org/sites/default/settings.php" do
   source "settings.php.erb"
   variables(
-      :base_url => "http://theodi.org",
-      :database => db["database"],
-      :db_user => db["username"],
-      :db_pass => db["password"],
-      :db_host => db["host"]
+      :base_url  => drupal[node.chef_environment]["base_url"],
+      :database  => db[node.chef_environment]["database"],
+      :db_user   => db[node.chef_environment]["username"],
+      :db_pass   => db[node.chef_environment]["password"],
+      :db_host   => db[node.chef_environment]["host"],
+      :db_driver => db[node.chef_environment]["driver"]
   )
   user "www-data"
   group "www-data"
@@ -56,8 +74,8 @@ end
 template "/etc/apache2/sites-available/theodi.org" do
   source "vhost.erb"
   variables(
-      :server_name => "theodi.org",
-      :server_alias => "www.theodi.org"
+      :server_name  => drupal[node.chef_environment]["server_name"],
+      :server_alias => drupal[node.chef_environment]["server_alias"]
   )
 end
 
