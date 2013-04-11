@@ -27,6 +27,7 @@ Feature: Build a fully-operational battlestation^W calendar.theodi.org node from
     * the following databags have been updated:
       | databag          | databag_path                 |
       | envs             | ./data_bags/envs             |
+      | certs            | ./data_bags/certs            |
       | office-calendar  | ./data_bags/office-calendar  |
 
     * the "chef-client::cron" recipe has been added to the "calendar" run list
@@ -98,8 +99,8 @@ calendar ALL=NOPASSWD:ALL
   
   @certificate  
   Scenario: The Google apps certificate file is uploaded
-    * file "/etc/certs/google/privatekey.p12" should exist
-    When I run "md5sum /etc/certs/google/privatekey.p12"
+    * file "/etc/certs/googleapps/privatekey.p12" should exist
+    When I run "md5sum /etc/certs/googleapps/privatekey.p12"
     Then I should see "96b3e4" in the output
 
   Scenario: Code is deployed

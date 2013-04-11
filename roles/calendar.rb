@@ -13,6 +13,10 @@ default_attributes 'user'              => 'calendar',
                            'minute'     => "*/5",
                            'log_file'   => "/var/log/chef/cron.log"
                        }
+                   },
+                   'cert'              => {
+                       'name' => 'googleapps',
+                       'file' => 'privatekey.p12'
                    }
 
 override_attributes 'envbuilder'  => {
@@ -34,6 +38,7 @@ run_list "role[base]",
          "recipe[odi-rvm]",
          "recipe[odi-xml]",
          "recipe[odi-nginx]",
+         "recipe[odi-cert-deployer]",
          "recipe[xslt]",
          "recipe[libcurl]",
          "recipe[nodejs::install_from_package]",
