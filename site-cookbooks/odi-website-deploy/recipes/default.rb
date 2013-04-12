@@ -51,8 +51,7 @@ script 'Set up a less restrictive php.ini for Drush to use' do
   EOF
 end
 
-template "/var/www/vanilla_drupal.sqlite" do
-  source "vanilla_drupal.sqlite.erb"
+cookbook_file "/var/www/vanilla_drupal.sqlite" do
   user "www-data"
   group "www-data"
 end
