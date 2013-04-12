@@ -16,3 +16,5 @@ data_bags/
 *.pl
 
 *.avi
+
+site-cookbooks/odi-website-deploy/files/default/vanilla_drupal.sqlite
