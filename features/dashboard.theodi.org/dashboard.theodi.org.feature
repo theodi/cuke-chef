@@ -118,7 +118,7 @@ dashboard ALL=NOPASSWD:ALL
     * file "/etc/init/dashboard-thin-1.conf" should exist
     When I run "cat /etc/init/dashboard-thin-1.conf"
     Then I should see "exec su - dashboard" in the output
-    And I should see "export PORT=3030" in the output
+    And I should see "export PORT=3000" in the output
 #    And I should see "RACK_ENV=production" in the output
     And I should see "/var/log/dashboard/thin-1.log" in the output
 
@@ -132,7 +132,7 @@ dashboard ALL=NOPASSWD:ALL
     * file "/etc/nginx/sites-available/dashboard.theodi.org" should contain
     """
 upstream dashboard {
-  server 127.0.0.1:3030;
+  server 127.0.0.1:3000;
 }
 
 server {
