@@ -27,7 +27,6 @@ Feature: Build a fully-operational battlestation^W dashboard.theodi.org node fro
     * the following databags have been updated:
       | databag          | databag_path                 |
       | envs             | ./data_bags/envs             |
-      | certs            | ./data_bags/certs            |
 
     * the "chef-client::cron" recipe has been added to the "dashboard" run list
     * the "dashboard" role has been added to the "dashboard" run list
