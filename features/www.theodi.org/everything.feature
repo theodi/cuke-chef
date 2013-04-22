@@ -55,6 +55,7 @@ Feature: We have a functioning website
 
   Scenario: memcached is installed
     * package "php5-memcached" should be installed
+    * "memcached" should be running
     
   Scenario: ntp is installed
     * package "ntp" should be installed

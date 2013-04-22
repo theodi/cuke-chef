@@ -8,9 +8,7 @@ id_rsa*
 *txt
 .live-chef
 .DS_Store
-data_bags/member-directory
-data_bags/envs
-data_bags/website
+data_bags/
 .vagrant*
 
 *.ppm
@@ -18,3 +16,5 @@ data_bags/website
 *.pl
 
 *.avi
+
+site-cookbooks/odi-website-deploy/files/default/vanilla_drupal.sqlite
