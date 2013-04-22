@@ -89,14 +89,13 @@ dashboard ALL=NOPASSWD:ALL
 
   @startup
   Scenario: Startup scripts are in play
-    * file "/etc/init/dashboard.conf" should exist
-    * file "/etc/init/dashboard-thin.conf" should exist
-    * file "/etc/init/dashboard-thin-1.conf" should exist
-    When I run "cat /etc/init/dashboard-thin-1.conf"
-    Then I should see "exec su - dashboard" in the output
+    * file "/etc/init/dashboards.conf" should exist
+    * file "/etc/init/dashboards-dashing.conf" should exist
+    * file "/etc/init/dashboards-dashing-1.conf" should exist
+    When I run "cat /etc/init/dashboards-dashing-1.conf"
+    Then I should see "exec su - dashboards" in the output
     And I should see "export PORT=3000" in the output
-#    And I should see "RACK_ENV=production" in the output
-    And I should see "/var/log/dashboard/thin-1.log" in the output
+    And I should see "/var/log/dashboards/dashing-1.log" in the output
 
 @nginx
   Scenario: nginx virtualhosts are correct
