@@ -1,9 +1,9 @@
-name 'dashboard'
+name 'dashboards'
 
-default_attributes 'user'              => 'dashboard',
-                   'group'             => 'dashboard',
+default_attributes 'user'              => 'dashboards',
+                   'group'             => 'dashboards',
                    'ruby'              => '1.9.3-p374',
-                   'project_fqdn'      => 'dashboard.theodi.org',
+                   'project_fqdn'      => 'dashboards.theodi.org',
                    'git_project'       => 'dashboards',
                    'migration_command' => '',
                    'chef_client'       => {
@@ -16,9 +16,9 @@ default_attributes 'user'              => 'dashboard',
                    }
 
 override_attributes 'envbuilder'  => {
-                        'base_dir' => '/var/www/dashboard.theodi.org/shared/config',
-                        'owner'    => 'dashboard',
-                        'group'    => 'dashboard'
+                        'base_dir' => '/var/www/dashboards.theodi.org/shared/config',
+                        'owner'    => 'dashboards',
+                        'group'    => 'dashboards'
                     },
                     'chef_client' => {
                         'interval' => 300,
@@ -38,6 +38,5 @@ run_list "role[base]",
          "recipe[libcurl]",
          "recipe[nodejs::install_from_package]",
          "recipe[sqlite::dev]",
-         "recipe[envbuilder]",
-         "recipe[odi-deployment]",
+         "recipe[odi-simple-deployment]",
          "recipe[odi-shim]"
