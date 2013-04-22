@@ -78,13 +78,6 @@ dashboard ALL=NOPASSWD:ALL
   Scenario: nginx is installed
     * package "nginx" should be installed
 
-  
-  @certificate  
-  Scenario: The Google apps certificate file is uploaded
-    * file "/etc/certs/googleapps/privatekey.p12" should exist
-    When I run "md5sum /etc/certs/googleapps/privatekey.p12"
-    Then I should see "96b3e4" in the output
-
   Scenario: Code is deployed
     * directory "/var/www/dashboard.theodi.org" should exist
     * directory "/var/www/dashboard.theodi.org/releases" should exist
