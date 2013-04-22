@@ -24,9 +24,6 @@ Feature: Build a fully-operational battlestation^W dashboard.theodi.org node fro
     * all of the cookbooks in "./cookbooks" have been uploaded
     * all of the cookbooks in "./site-cookbooks" have been uploaded
 
-    * the following databags have been updated:
-      | databag          | databag_path                 |
-      | envs             | ./data_bags/envs             |
 
     * the "chef-client::cron" recipe has been added to the "dashboard" run list
     * the "dashboard" role has been added to the "dashboard" run list
@@ -81,13 +78,6 @@ dashboard ALL=NOPASSWD:ALL
   Scenario: nginx is installed
     * package "nginx" should be installed
 
-@envfile
-  Scenario: The env file exists
-    * file "/var/www/dashboard.theodi.org/shared/config/env" should exist
-
-  Scenario: The env file contains the correct stuff
-    When I run "cat /var/www/dashboard.theodi.org/shared/config/env"
-    Then I should see "RESQUE_REDIS_HOST: 151" in the output
   
   @certificate  
   Scenario: The Google apps certificate file is uploaded
@@ -104,11 +94,6 @@ dashboard ALL=NOPASSWD:ALL
     * directory "/var/www/dashboard.theodi.org/shared/log" should exist
     * directory "/var/www/dashboard.theodi.org/shared/system" should exist
 
-  @configurationstuff
-  Scenario: configuration stuff is correct
-    * symlink "/var/www/dashboard.theodi.org/current/.env" should exist
-    When I run "stat -c %N /var/www/dashboard.theodi.org/current/.env"
-    Then I should see "../../shared/config/env" in the output
 
   @startup
   Scenario: Startup scripts are in play
