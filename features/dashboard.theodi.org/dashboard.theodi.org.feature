@@ -71,7 +71,6 @@ dashboard ALL=NOPASSWD:ALL
     * package "libxml2-dev" should be installed
     * package "libxslt1-dev" should be installed
     * package "libcurl4-openssl-dev" should be installed
-    * package "libmysqlclient-dev" should be installed
     When I run "node -h"
     Then I should not see "command not found" in the output
 
