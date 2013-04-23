@@ -98,6 +98,8 @@ Feature: We have a functioning website
   ServerName theodi.org
   ServerAlias www.theodi.org
   DocumentRoot /var/www/theodi.org
+  RewriteEngine On
+  RewriteRule ^/(courses|lectures)\.json$ /proxy.php?type=$1 [L]
   <Directory /var/www/theodi.org>
     Options +FollowSymLinks
     AllowOverride All
