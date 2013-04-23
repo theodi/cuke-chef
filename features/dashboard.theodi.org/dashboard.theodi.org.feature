@@ -81,9 +81,9 @@ dashboards ALL=NOPASSWD:ALL
     * directory "/var/www/dashboards.theodi.org/releases" should exist
     * directory "/var/www/dashboards.theodi.org/shared" should exist
     * directory "/var/www/dashboards.theodi.org/shared/config" should exist
-    * directory "/var/www/dashboards.theodi.org/shared/pid" should exist
-    * directory "/var/www/dashboards.theodi.org/shared/log" should exist
-    * directory "/var/www/dashboards.theodi.org/shared/system" should exist
+#    * directory "/var/www/dashboards.theodi.org/shared/pid" should exist
+#    * directory "/var/www/dashboards.theodi.org/shared/log" should exist
+#    * directory "/var/www/dashboards.theodi.org/shared/system" should exist
 
   @startup
   Scenario: Startup scripts are in play
