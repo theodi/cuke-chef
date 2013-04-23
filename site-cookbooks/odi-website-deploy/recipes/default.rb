@@ -52,8 +52,23 @@ script 'Set up a less restrictive php.ini for Drush to use' do
 end
 
 cookbook_file "/var/www/vanilla_drupal.sqlite" do
-  user "www-data"
-  group "www-data"
+  template "/var/www/vanilla_drupal.sqlite" do
+    source "vanilla_drupal.sqlite.erb"
+    user "www-data"
+    group "www-data"
+end
+
+cron "drupal_cron" do
+  minute "10"
+  hour "*"
+  day "*"
+  month "*"
+  weekday "*"
+  user "root"
+  command <<-EOF
+    COLUMNS=72 /usr/bin/drush --root=/var/www/theodi.org --uri=theodi.org --quiet cron
+  EOF
+  action :create
 end
 
 template "/var/www/theodi.org/sites/default/settings.php" do

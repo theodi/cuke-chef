@@ -71,6 +71,11 @@ Feature: We have a functioning website
     When I run "drush --version | grep version"
     Then I should see "5." in the output
 
+@crontab
+  Scenario: Drupal crontab is installed
+    When I run "crontab -u root -l"
+    Then I should see "/usr/bin/drush --root=/var/www/theodi.org --uri=theodi.org --quiet cron" in the output
+
   Scenario: chef-client is running
     * process "chef-client" should be running
 
