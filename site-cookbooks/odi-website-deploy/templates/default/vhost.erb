@@ -2,6 +2,8 @@
   ServerName <%= @server_name %>
   ServerAlias <%= @server_alias %>
   DocumentRoot /var/www/<%= @server_name %>
+  RewriteEngine On
+  RewriteRule ^/(courses|lectures)\.json$ /proxy.php?type=$1 [L]
   <Directory /var/www/<%= @server_name %>>
     Options +FollowSymLinks
     AllowOverride All
