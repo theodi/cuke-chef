@@ -52,10 +52,9 @@ script 'Set up a less restrictive php.ini for Drush to use' do
 end
 
 cookbook_file "/var/www/vanilla_drupal.sqlite" do
-  template "/var/www/vanilla_drupal.sqlite" do
-    source "vanilla_drupal.sqlite.erb"
-    user "www-data"
-    group "www-data"
+  source "vanilla_drupal.sqlite"
+  user "www-data"
+  group "www-data"
 end
 
 cron "drupal_cron" do
@@ -95,4 +94,5 @@ end
 
 apache_site "theodi.org" do
   action :enable
+  notifies :restart, "service[apache2]"
 end
