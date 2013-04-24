@@ -41,8 +41,9 @@ template "/etc/nginx/sites-available/%s" % [
 ] do
   source "vhost.erb"
   variables(
-      :fqdn         => node["project_fqdn"],
-      :project_name => node["git_project"]
+      :fqdn          => node["project_fqdn"],
+      :project_name  => node["git_project"],
+      :static_assets => node["nginx"]["static_assets"]
   )
   action :create
 end

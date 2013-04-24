@@ -143,7 +143,7 @@ calendar ALL=NOPASSWD:ALL
     * symlink "/etc/nginx/sites-enabled/default" should not exist
     * file "/etc/nginx/sites-available/calendar.theodi.org" should exist
 
-@nginx
+@nginx @vhost
   Scenario: virtualhost should contain correct stuff
     * file "/etc/nginx/sites-available/calendar.theodi.org" should contain
     """

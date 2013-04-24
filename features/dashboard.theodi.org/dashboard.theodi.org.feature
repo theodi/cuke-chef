@@ -100,7 +100,7 @@ dashboards ALL=NOPASSWD:ALL
     * symlink "/etc/nginx/sites-enabled/default" should not exist
     * file "/etc/nginx/sites-available/dashboards.theodi.org" should exist
 
-@nginx
+@nginx @vhost
   Scenario: virtualhost should contain correct stuff
     * file "/etc/nginx/sites-available/dashboards.theodi.org" should contain
     """
@@ -115,13 +115,6 @@ server {
   error_log /var/log/nginx/dashboards.theodi.org.err;
   location / {
     try_files $uri @backend;
-  }
-
-  location ~ ^/(assets)/  {
-    root /var/www/dashboards.theodi.org/current/public/;
-    gzip_static on; # to serve pre-gzipped version
-    expires max;
-    add_header Cache-Control public;
   }
 
   location @backend {

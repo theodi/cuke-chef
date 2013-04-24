@@ -23,6 +23,9 @@ override_attributes 'envbuilder'  => {
                     'chef_client' => {
                         'interval' => 300,
                         'splay'    => 30
+                    },
+                    'nginx' => {
+                        'static_assets' => false
                     }
 
 
