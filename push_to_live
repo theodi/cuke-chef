@@ -8,13 +8,13 @@ do
   done
 done
 
-for bag in `ls data_bags/`
-do
-  items=`ls data_bags/${bag}`
-  knife data bag create ${bag} -c .live-chef/knife.rb
-  for item in ${items}
-    do knife data bag from file ${bag} data_bags/${bag}/${item} -c .live-chef/knife.rb
-  done
-done
+#for bag in `ls data_bags/`
+#do
+#  items=`ls data_bags/${bag}`
+#  knife data bag create ${bag} -c .live-chef/knife.rb
+#  for item in ${items}
+#    do knife data bag from file ${bag} data_bags/${bag}/${item} -c .live-chef/knife.rb
+#  done
+#done
 
 knife cookbook upload -a -c .live-chef/knife.rb
