@@ -71,6 +71,41 @@ if [
       running_deploy_user       = new_resource.user
       bundler_depot             = new_resource.shared_path + '/bundle'
 
+      [
+          "database.yml"
+      ].each do |f|
+        p   = "%s/%s/%s" % [
+            current_release_directory,
+            "config",
+            f
+        ]
+        dbi = nil
+        file p do
+          action :create
+          begin
+            dbi = data_bag_item(
+                "%s" % [
+                    node['git_project']
+                ],
+                f.split('.').first
+            )
+
+            content dbi["content"].to_yaml
+
+          rescue Net::HTTPServerException
+          end
+        end
+      end
+
+      script 'Link me some links' do
+        interpreter 'bash'
+        cwd current_release_directory
+        user running_deploy_user
+        code <<-EOF
+        ln -sf ../../shared/config/env .env
+        EOF
+      end
+
       script 'Bundling the gems' do
         interpreter 'bash'
         cwd current_release_directory
