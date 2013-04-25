@@ -37,7 +37,8 @@ if [
   [
       "",
       "shared",
-      "shared/config"
+      "shared/config",
+      "shared/log"
   ].each do |d|
     directory "%s/%s" % [
         root_dir,
@@ -71,6 +72,16 @@ if [
       running_deploy_user       = new_resource.user
       bundler_depot             = new_resource.shared_path + '/bundle'
 
+      script 'Link me some links' do
+        interpreter 'bash'
+        cwd current_release_directory
+        user running_deploy_user
+        code <<-EOF
+          touch poop
+          ln -sf ../../shared/config/env .env
+        EOF
+      end
+
       script 'Bundling the gems' do
         interpreter 'bash'
         cwd current_release_directory
@@ -81,7 +92,6 @@ if [
           --path #{bundler_depot}
         EOF
       end
-
     end
 
     before_restart do

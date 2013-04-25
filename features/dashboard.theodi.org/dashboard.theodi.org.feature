@@ -81,9 +81,29 @@ dashboards ALL=NOPASSWD:ALL
     * directory "/var/www/dashboards.theodi.org/releases" should exist
     * directory "/var/www/dashboards.theodi.org/shared" should exist
     * directory "/var/www/dashboards.theodi.org/shared/config" should exist
-#    * directory "/var/www/dashboards.theodi.org/shared/pid" should exist
-#    * directory "/var/www/dashboards.theodi.org/shared/log" should exist
-#    * directory "/var/www/dashboards.theodi.org/shared/system" should exist
+
+  @env
+  Scenario: The env file exists
+    * file "/var/www/dashboards.theodi.org/shared/config/env" should exist
+  @env
+  Scenario: The env file contains the correct stuff
+    When I run "cat /var/www/dashboards.theodi.org/shared/config/env"
+    Then I should see "JENKINS_URL: http://jenkins.theodi.org" in the output
+    And I should see "RESQUE_REDIS_HOST: 151" in the output
+    And I should see "EVENTBRITE_API_KEY: IZ" in the output
+    And I should see "CAPSULECRM_DEFAULT_OWNER: ri" in the output
+    And I should see "LEFTRONIC_GITHUB_OUTGOING_PRS: d" in the output
+    And I should see "COURSES_TARGET_URL: http:" in the output
+    And I should see "TRELLO_DEV_KEY: a1" in the output
+    And I should see "GITHUB_OUATH_TOKEN: 18" in the output
+    And I should see "GOOGLE_ANALYTICS_TRACKER: UA-3" in the output
+    And I should see "XERO_PRIVATE_KEY_PATH: /etc" in the output
+    And I should see "COURSES_RSYNC_PATH: json" in the output
+  @env
+  Scenario: configuration stuff is correct
+    * symlink "/var/www/dashboards.theodi.org/current/.env" should exist
+    When I run "stat -c %N /var/www/dashboards.theodi.org/current/.env"
+    Then I should see "../../shared/config/env" in the output
 
   @startup
   Scenario: Startup scripts are in play

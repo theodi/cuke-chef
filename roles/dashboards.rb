@@ -41,5 +41,6 @@ run_list "role[base]",
          "recipe[libcurl]",
          "recipe[nodejs::install_from_package]",
          "recipe[sqlite::dev]",
+         "recipe[envbuilder]",
          "recipe[odi-simple-deployment]",
          "recipe[odi-shim]"
