@@ -76,6 +76,23 @@ dashboards ALL=NOPASSWD:ALL
   Scenario: nginx is installed
     * package "nginx" should be installed
 
+  Scenario: The env file exists
+    * file "/var/www/directory.theodi.org/shared/config/env" should exist
+
+  Scenario: The env file contains the correct stuff
+    When I run "cat /var/www/directory.theodi.org/shared/config/env"
+    Then I should see "JENKINS_URL: http://jenkins.theodi.org" in the output
+    And I should see "RESQUE_REDIS_HOST: 151" in the output
+    And I should see "EVENTBRITE_API_KEY: IZ" in the output
+    And I should see "CAPSULECRM_DEFAULT_OWNER: ri" in the output
+    And I should see "LEFTRONIC_GITHUB_OUTGOING_PRS: d" in the output
+    And I should see "COURSES_TARGET_URL: http:" in the output
+    And I should see "TRELLO_DEV_KEY: a1" in the output
+    And I should see "GITHUB_OUATH_TOKEN: 18" in the output
+    And I should see "GOOGLE_ANALYTICS_TRACKER: UA-3" in the output
+    And I should see "XERO_PRIVATE_KEY_PATH: /etc" in the output
+    And I should see "COURSES_RSYNC_PATH: json" in the output
+
   Scenario: Code is deployed
     * directory "/var/www/dashboards.theodi.org" should exist
     * directory "/var/www/dashboards.theodi.org/releases" should exist
