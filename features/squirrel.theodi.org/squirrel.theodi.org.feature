@@ -43,3 +43,11 @@ Feature: Build a functioning MySQL server
   Scenario: MySQL is installed
     * package "mysql-server" should be installed
 
+  Scenario: Can connect to database server
+    When I run "mysql -ppasswordallthethings -e 'show databases'"
+    Then I should not see "ERROR" in the output
+
+  Scenario: Database "theodi_org" exists
+    When I run "mysql -ppasswordallthethings -e 'show databases'"
+    Then I should see "theodi_org" in the output
+
