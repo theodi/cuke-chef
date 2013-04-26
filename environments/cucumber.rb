@@ -17,6 +17,14 @@ default_attributes 'ENV'      => 'production',
 override_attributes 'deploy' => {
                         'migrate' => false,
                         'revision' => 'CURRENT'
+                    },
+                    'chef_client'       => {
+                        'cron' => {
+                            'use_cron_d' => true,
+                            'hour'       => "0",
+                            'minute'     => "0",
+                            'log_file'   => "/var/log/chef/cron.log"
+                        }
                     }
 
 cookbook 'apt', '= 1.9.0'
