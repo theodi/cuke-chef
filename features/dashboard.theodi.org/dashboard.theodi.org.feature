@@ -7,7 +7,7 @@ Feature: Build a fully-operational battlestation^W dashboards.theodi.org node fr
 
   Background:
     * I have a server called "dashboards"
-    * "dashboards" is running "ubuntu" "precise"
+    * "dashboards" is running "ubuntu" "raring"
     * "dashboards" should be persistent
 
     * the following environment has been uploaded:
