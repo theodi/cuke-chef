@@ -22,6 +22,7 @@ cookbook 'imagemagick'
 cookbook 'drush', :git => 'git://github.com/msonnabaum/chef-drush.git'
 cookbook 'postfix'
 cookbook 'ntp'
+cookbook 'database'
 
 # ODI books here
 #cookbook 'rvm', :git => 'git://github.com/theodi/chef-rvm.git'
