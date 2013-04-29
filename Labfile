@@ -11,8 +11,7 @@ ecosystem "superawesome" do
     mac "00:00:5e:35:ea:d5"
     chef_client ({ :environment => "cucumber",
                    :run_list    => [
-                       "role[base]",
-                       "recipe[git]"
+                       "role[base]"
                    ]
     })
   end
