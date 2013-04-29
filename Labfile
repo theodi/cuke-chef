@@ -1,18 +1,20 @@
 #!/usr/bin/env ruby
 #^syntax detection
 
-ecosystem "odi" do
+ecosystem "superawesome" do
 
-  container "env-test" do
+  container "superawesomeserver" do
     distro "ubuntu"
     release "lucid"
     persist true
-#    ip "192.168.32.100"
-#    mac "00:00:5e:d1:fa:08"
-    chef_client ({ :environment => "vagrant",
+    ip "192.168.0.1"
+    mac "00:00:5e:35:ea:d5"
+    chef_client ({ :environment => "cucumber",
                    :run_list    => [
-                       "recipe[envbuilder]"
+                       "role[base]",
+                       "recipe[git]"
                    ]
     })
   end
+
 end
