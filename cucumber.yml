@@ -1,1 +1,3 @@
-default: --quiet
+---
+#default: --quiet
+default: --color --verbose --backtrace --exclude cookbooks --exclude data_bags --exclude environments --exclude keys --format pretty
