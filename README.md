@@ -25,3 +25,16 @@ Everything should be green. If you see red, _I really want to hear about it, ple
 Remember to ```cucumber-chef destroy``` your test lab before attempting to provision another one or Vagrant will sulk and refuse to play.
 
 Not really sure if this will be useful to anybody else just yet, I think it's more about me getting my ducks in a row for now. But expect more interesting things when we actually start building out some intrastructure...
+
+Fetching data bags
+==================
+
+To run your tests, you need local copies of the data bags from the live chef server. You can do this like so:
+
+```
+mkdir -p data_bags/envs
+knife data bag show envs development --format json > data_bags/envs/development.json
+knife data bag show envs production --format json > data_bags/envs/production.json
+mkdir -p data_bags/{your_app}
+knife data bag show {your_app} database --format json > data_bags/{your_app}/database.json
+```
