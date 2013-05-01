@@ -3,7 +3,7 @@ name 'git-data-viewer'
 default_attributes 'user'              => 'git-data-viewer',
                    'group'             => 'git-data-viewer',
                    'ruby'              => '2.0.0-p0',
-                   'project_fqdn'      => 'git-data-viewer.theodi.org',
+                   'project_fqdn'      => 'git-viewer.labs.theodi.org',
                    'git_project'       => 'git-data-viewer',
                    'migration_command' => 'bundle exec rake db:migrate',
                    'chef_client'       => {
@@ -16,7 +16,7 @@ default_attributes 'user'              => 'git-data-viewer',
                    }
 
 override_attributes 'envbuilder'  => {
-    'base_dir' => '/var/www/git-data-viewer.theodi.org/shared/config',
+    'base_dir' => '/var/www/git-viewer.labs.theodi.org/shared/config',
     'owner'    => 'git-data-viewer',
     'group'    => 'git-data-viewer'
 },
