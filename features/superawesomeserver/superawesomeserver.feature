@@ -8,7 +8,7 @@ Feature: Perform test driven infrastructure with Cucumber-Chef
      * I ssh to "superawesomeserver" with the following credentials:
       | username | keyfile |
       | $lxc$    | $lxc$   |
-     * I run "chef-client"
+     * I run "echo 'prawn' > /tmp/prawn"
 
   Scenario: Can connect to the provisioned server via SSH authentication
     When I run "hostname"
@@ -28,5 +28,6 @@ Feature: Perform test driven infrastructure with Cucumber-Chef
     And I should see "8.8.4.4" in the output
 
   Scenario: postfix is installed
+    * I run "chef-client"
     * package "postfix" should be installed
 
