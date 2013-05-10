@@ -26,7 +26,7 @@ Feature: Build a fully-operational battlestation^W directory.theodi.org node fro
 
     * the following databags have been updated:
       | databag          | databag_path                 |
-      | member-directory | ./data_bags/member-directory |
+#      | member-directory | ./data_bags/member-directory |
       | envs             | ./data_bags/envs             |
 
     * the "chef-client::cron" recipe has been added to the "directory" run list
