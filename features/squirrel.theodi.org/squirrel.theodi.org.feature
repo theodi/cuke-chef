@@ -47,7 +47,36 @@ Feature: Build a functioning MySQL server
     When I run "mysql -ppasswordallthethings -e 'show databases'"
     Then I should not see "ERROR" in the output
 
+  @restore
   Scenario: Database "theodi_org" exists
     When I run "mysql -ppasswordallthethings -e 'show databases'"
     Then I should see "theodi_org" in the output
 
+  @user
+  Scenario: hoppler user exists
+    When I run "su - hoppler -c 'echo ${SHELL}'"
+    Then I should see "/bin/bash" in the output
+
+  @user
+  Scenario: hoppler user has ruby 2
+    When I run "su - hoppler -c 'ruby -v'"
+    Then I should see "2.0.0" in the output
+
+  @code
+  Scenario: Hoppler is installed and cronned
+    * path "/home/hoppler/hoppler" should exist
+    * file "/home/hoppler/hoppler/lib/hoppler.rb" should exist
+    * file "/etc/cron.d/hoppler" should contain
+    """
+    0 2 * * * hoppler cd /home/hoppler/hoppler && hoppler:backup
+    0 3 * * 7 hoppler cd /home/hoppler/hoppler && hoppler:cleanup
+    """
+
+  @envfile
+  Scenario: ~/.mysql.env is correct
+    * file "/home/hoppler/hoppler/.mysql.env" should contain
+    """
+    MYSQL_USERNAME='root'
+    MYSQL_PASSWORD='passwordallthethings'
+    """
+    * file "/home/hoppler/.env" should exist

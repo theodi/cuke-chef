@@ -18,3 +18,5 @@ data_bags/
 *.avi
 
 site-cookbooks/odi-website-deploy/files/default/vanilla_drupal.sqlite
+bin/
+.bundle/

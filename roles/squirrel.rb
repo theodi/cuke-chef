@@ -1,4 +1,6 @@
 name 'squirrel'
 
 run_list "role[base]",
-         "recipe[odi-mysql::server]"
+         "recipe[envbuilder]",
+         "recipe[odi-mysql::server]",
+         "recipe[hoppler]"
