@@ -172,7 +172,7 @@ if [
         cwd current_release_directory
         user running_deploy_user
         code <<-EOF
-        bundle exec rake assets:precompile
+        RAILS_ENV=production bundle exec rake assets:precompile
         EOF
         # Redis configuration not set!!!
       end

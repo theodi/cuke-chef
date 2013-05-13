@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of odi-deployment.
 
+## 0.1.1:
+
+* Run asset precompilation in production environment, for Rails 4.
+
 ## 0.1.0:
 
 * Initial release of odi-deployment
