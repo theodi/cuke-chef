@@ -41,5 +41,5 @@ Feature: Build a functioning Memcache server
     * package "memcached" should be installed
 
   Scenario: Can connect to memcache server
-    When I run "echo STATS | nc 192.168.77.42 11211"
-    Then I should see "STAT uptime" in the output
+    When I run "echo stats | nc 192.168.77.42 11211"
+    Then I should see "STAT limit_maxbytes 67108864" in the output
