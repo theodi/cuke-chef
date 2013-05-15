@@ -81,6 +81,18 @@ if mysql_node["rackspace"]
   mysql_address = mysql_node["rackspace"]["private_ip"]
 end
 
+memcache_nodes = search(:node, "name:drupal-memcache-server* AND chef_environment:#{node.chef_environment}")
+memcache_servers = memcache_nodes.map do |node|
+  if node["rackspace"]
+    node ["rackspace"]["private_ip"]
+  else
+    node["ipaddress"]
+  end
+end
+if memcache_servers.empty?
+  memcache_servers = ['localhost']
+end
+
 template "/var/www/theodi.org/sites/default/settings.php" do
   source "settings.php.erb"
   variables(
@@ -91,7 +103,7 @@ template "/var/www/theodi.org/sites/default/settings.php" do
   #    :db_host   => db[node.chef_environment]["host"],
       :db_host  => mysql_address,
       :db_driver => db[node.chef_environment]["driver"],
-      :memcache_servers => ["localhost"],
+      :memcache_servers => memcache_servers,
   )
   user "www-data"
   group "www-data"
