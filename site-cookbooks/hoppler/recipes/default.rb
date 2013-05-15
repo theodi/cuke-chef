@@ -24,7 +24,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-hoppler = "hoppler"
+hoppler = node["user"]
 
 group "%s" % [
     hoppler
@@ -54,30 +54,20 @@ file "/etc/sudoers.d/%s" % [
   action :create
 end
 
-node.set['rvm']['user_installs'] = [
-    { 'user'         => hoppler,
-      'default_ruby' => "2.0.0",
-      'rubies'       => [
-          "2.0.0"
-      ]
-    }
-]
+#node.set['rvm']['user_installs'] = [
+#    { 'user'         => hoppler,
+#      'default_ruby' => "2.0.0",
+#      'rubies'       => [
+#          "2.0.0"
+#      ]
+#    }
+#]
 
-include_recipe "rvm::user_install"
+include_recipe "odi-rvm"
 
 dbi = data_bag_item 'databases', 'www'
 
 node.set['mysql']['server_root_password'] = dbi[node.chef_environment]['password']
-
-template "/home/%s/.mysql.env" % [
-    hoppler
-] do
-  source "mysql.env.erb"
-  variables(
-      :username => "root",
-      :password => node['mysql']['server_root_password']
-  )
-end
 
 git "/home/%s/hoppler" % [
     hoppler
@@ -88,17 +78,63 @@ git "/home/%s/hoppler" % [
   action :sync
 end
 
+directory "/home/%s/hoppler" % [
+    hoppler
+] do
+  mode "0755"
+  owner hoppler
+  group hoppler
+end
+
+template "/home/%s/hoppler/.mysql.env" % [
+    hoppler
+] do
+  source "mysql.env.erb"
+  variables(
+      :username => "root",
+      :password => node['mysql']['server_root_password']
+  )
+  owner hoppler
+  group hoppler
+end
+
+link "/home/hoppler/hoppler/.env" do
+  to "/home/hoppler/.env"
+end
+
 script "bundle" do
   interpreter 'bash'
-#  cwd "/home/%s/hoppler" % [
-#      hoppler
-#  ]
-#  user hoppler
   code <<-EOF
-  su - hoppler -c "cd /home/hoppler/hoppler && bundle install --quiet"
+  su - hoppler -c "cd /home/hoppler/hoppler && bundle update --quiet"
   EOF
 end
 
 template "/etc/cron.d/hoppler" do
   source "cron.erb"
+  variables(
+      :backup_hour  => node["hoppler"]["backup_hour"],
+      :cleanup_hour => node["hoppler"]["cleanup_hour"],
+      :cleanup_day  => node["hoppler"]["cleanup_day"]
+  )
+end
+
+dbi = data_bag_item "databases", "credentials"
+
+template "/home/%s/hoppler/db.creds.yaml" % [
+  hoppler
+] do
+  source "db.creds.yaml.erb"
+  variables(
+      :dbi => dbi,
+      :env => node.chef_environment
+  )
+  owner hoppler
+  group hoppler
+end
+
+script "restore some DBs" do
+  interpreter "bash"
+  code <<-EOF
+  su - hoppler -c "cd /home/hoppler/hoppler && rake hoppler:restore"
+  EOF
 end
