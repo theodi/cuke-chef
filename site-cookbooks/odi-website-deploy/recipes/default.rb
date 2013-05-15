@@ -48,6 +48,10 @@ script 'Set up a less restrictive php.ini for Drush to use' do
   code <<-EOF
   mkdir -p /root/.drush/
   echo "disable_functions =" > /root/.drush/php.ini
+  echo "magic_quotes_gpc = Off" >> /root/.drush/php.ini
+  echo "magic_quotes_gpc = 0" >> /root/.drush/php.ini
+  echo "magic_quotes_runtime = 0" >> /root/.drush/php.ini
+  echo "magic_quotes_sybase = 0" >> /root/.drush/php.ini
   EOF
 end
 
@@ -70,6 +74,13 @@ cron "drupal_cron" do
   action :create
 end
 
+mysql_node = search(:node, "name:drupal-mysql-server* AND chef_environment:#{node.chef_environment}")[0]
+
+mysql_address = mysql_node["ipaddress"]
+if mysql_node["rackspace"]
+  mysql_address = mysql_node["rackspace"]["private_ip"]
+end
+
 template "/var/www/theodi.org/sites/default/settings.php" do
   source "settings.php.erb"
   variables(
@@ -77,7 +88,8 @@ template "/var/www/theodi.org/sites/default/settings.php" do
       :database  => db[node.chef_environment]["database"],
       :db_user   => db[node.chef_environment]["username"],
       :db_pass   => db[node.chef_environment]["password"],
-      :db_host   => db[node.chef_environment]["host"],
+  #    :db_host   => db[node.chef_environment]["host"],
+      :db_host  => mysql_address,
       :db_driver => db[node.chef_environment]["driver"]
   )
   user "www-data"
