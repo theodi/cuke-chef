@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of odi-simple-deployment.
 
+## 0.1.2:
+
+* Enable for experimental environment
+
+## 0.1.1:
+
 ## 0.1.0:
 
 * Initial release of odi-simple-deployment
