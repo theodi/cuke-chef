@@ -29,7 +29,8 @@ listen_address = node["ipaddress"]
 if node["rackspace"]
   listen_address = node["rackspace"]["private_ip"]
 end
-
 node.set['memcached']['listen'] = listen_address
+
+node.set['memcached']['memory'] = 768
 
 include_recipe "memcached"
