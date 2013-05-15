@@ -27,6 +27,7 @@
 include_recipe 'git'
 
 if [
+    'experimental',
     'production',
     'cucumber'
 ].include? node.chef_environment
