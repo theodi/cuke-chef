@@ -56,10 +56,10 @@ Feature: We have a functioning website
   Scenario: memcached is installed
     * package "php5-memcached" should be installed
     * "memcached" should be running
-    
+
   Scenario: ntp is installed
     * package "ntp" should be installed
-    
+
   Scenario: Python should be installed
     When I run "python -V"
     Then I should see "Python 2.7" in the output
@@ -87,6 +87,7 @@ Feature: We have a functioning website
   Scenario: settings file has correct stuff
     When I run "cat /var/www/theodi.org/sites/default/settings.php"
     Then I should see "\$base_url = 'http://theodi.org';" in the output
+    And I should see "'host' => '192.168.77.20'," in the output
     And I should see "\$conf\['cache_default_class'\] = 'MemCacheDrupal';" in the output
     And file "/var/www/theodi.org/sites/default/settings.php" should be owned by "www-data:www-data"
 
@@ -116,7 +117,7 @@ Feature: We have a functioning website
   Scenario: icinga is installed
 #    * package "icinga-client" should be installed
 # This maybe: https://github.com/Bigpoint/icinga
-    
+
   Scenario: Fileconveyor should be installed with the correct settings
     * directory "/var/fileconveyor" should exist
     * file "/var/fileconveyor/fileconveyor/config.xml" should contain
@@ -152,14 +153,14 @@ SYNCED_FILES_DB = './synced_files.db'
     * path "/usr/local/lib/python2.7/dist-packages/python_cloudfiles-.*.egg" should exist
     * path "/usr/local/lib/python2.7/dist-packages/boto-.*.egg" should exist
     * path "/usr/local/lib/python2.7/dist-packages/cssutils-.*.egg" should exist
-  
-  @background-task  
+
+  @background-task
   Scenario: Fileconveyor should be running
     When I run "ps aux | grep arbitrator.py"
     Then the exit code should be "0"
-    And I should see "python arbitrator.py" in the output 
-    
-  @drupalcdn  
+    And I should see "python arbitrator.py" in the output
+
+  @drupalcdn
   Scenario: Drupal CDN should be set up properly
     When I run "cd /var/www/theodi.org && drush vget | grep cdn"
     Then I should see "/var/fileconveyor/fileconveyor/fileconveyor.pid" in the output
