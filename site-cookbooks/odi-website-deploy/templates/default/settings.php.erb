@@ -531,3 +531,10 @@ $conf['404_fast_html'] = '<html xmlns="http://www.w3.org/1999/xhtml"><head><titl
 
 $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
 $conf['cache_default_class'] = 'MemCacheDrupal';
+
+$conf['memcache_servers'] = array(
+  <% @memcache_servers.each do |memcache_server| %>
+    '<%= memcache_server %>:11211' => 'default',
+  <% end %>
+);
+$conf['memcache_bins'] = array('cache' => 'default')
