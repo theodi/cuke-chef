@@ -1,2 +1,2 @@
-0 2 * * * hoppler cd /home/hoppler/hoppler && hoppler:backup
-0 3 * * 7 hoppler cd /home/hoppler/hoppler && hoppler:cleanup
+0 <%= @backup_hour %> * * * hoppler cd /home/hoppler/hoppler && rake hoppler:backup
+0 <%= @cleanup_hour %> * * <%= @cleanup_day %> hoppler cd /home/hoppler/hoppler && rake hoppler:cleanup
