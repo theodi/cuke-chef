@@ -78,7 +78,8 @@ template "/var/www/theodi.org/sites/default/settings.php" do
       :db_user   => db[node.chef_environment]["username"],
       :db_pass   => db[node.chef_environment]["password"],
       :db_host   => db[node.chef_environment]["host"],
-      :db_driver => db[node.chef_environment]["driver"]
+      :db_driver => db[node.chef_environment]["driver"],
+      :memcache_servers => ["localhost"],
   )
   user "www-data"
   group "www-data"
