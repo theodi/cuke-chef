@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of odi-website-deploy.
 
+## 0.2.0:
+
+* Add support for memcache configuration
+
 ## 0.1.0:
 
 * Initial release of odi-website-deploy
