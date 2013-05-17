@@ -108,9 +108,13 @@ script 'Drush CDN stuff' do
   code <<-EOF
   drush en cdn --y
   drush ev 'variable_set("cdn_advanced_pid_file", "/var/fileconveyor/fileconveyor/fileconveyor.pid");'
-  drush ev 'variable_set("cdn_advanced_synced_files_db", "/var/fileconveyor/fileconveyor/synced_files.db");'
   drush ev 'variable_set("cdn_mode", "advanced");'
   drush ev 'variable_set("cdn_status", "2");'
+  drush ev 'variable_set("cdn_db_type", "1");'
+  drush ev 'variable_set("cdn_advanced_synced_files_db", "synced_files");'
+  drush ev 'variable_set("cdn_advanced_mysql_username", "#{db[node.chef_environment]["username"]}");'
+  drush ev 'variable_set("cdn_advanced_mysql_password", "#{db[node.chef_environment]["password"]}");'
+  drush ev 'variable_set("cdn_advanced_mysql_host", "#{mysql_address}");'  
   EOF
 end
 
