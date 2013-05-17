@@ -42,8 +42,8 @@ directory "/var/fileconveyor" do
 end
 
 git "/var/fileconveyor" do
-  repository "git://github.com/chrisivens/fileconveyor.git"
-  revision "no-delete"
+  repository "git://github.com/theodi/fileconveyor.git"
+  revision "mysql"
   user "www-data"
   group "www-data"
   action :sync
