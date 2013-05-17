@@ -100,6 +100,17 @@ script 'Download CDN if not already there' do
   not_if { ::File.exists?("/var/www/theodi.org/sites/all/modules/cdn/cdn.module") }
 end
 
+script 'Download and enable Transliteration module if not already there' do
+  interpreter 'bash'
+  cwd '/var/www/theodi.org'
+  user "root"
+  code <<-EOF
+  drush dl transliteration --y
+  drush en transliteration --y
+  EOF
+  not_if { ::File.exists?("/var/www/theodi.org/sites/all/modules/transliteration/transliteration.module") } 
+end
+
 # Set up various things in Drupal
 script 'Drush CDN stuff' do
   interpreter 'bash'
