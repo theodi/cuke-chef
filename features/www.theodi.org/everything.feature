@@ -142,11 +142,13 @@ Feature: We have a functioning website
 </rule>
 </rules>
     """
-    * file "/var/fileconveyor/fileconveyor/settings.py" should contain
-    """
-PERSISTENT_DATA_DB = './persistent_data.db'
-SYNCED_FILES_DB = './synced_files.db'
-    """
+    
+  Scenario: Fileconveyor database settings should be correct
+    When I run  "cat /var/fileconveyor/fileconveyor/settings.py"
+    Then I should see "SYNCED_FILES_HOST = '10.1" in the output
+    And I should see "SYNCED_FILES_USER = 'th" in the output
+    And I should see "SYNCED_FILES_PASS = 'n" in the output
+    And I should see "PERSISTENT_DATA_DB = './persistent_data.db" in the output
 
   Scenario: Fileconveyor dependencies should be installed
     * path "/usr/local/lib/python2.7/dist-packages/django_cumulus-.*.egg" should exist
@@ -164,7 +166,10 @@ SYNCED_FILES_DB = './synced_files.db'
   @drupalcdn
   Scenario: Drupal CDN should be set up properly
     When I run "cd /var/www/theodi.org && drush vget | grep cdn"
-    Then I should see "/var/fileconveyor/fileconveyor/fileconveyor.pid" in the output
-    And I should see "/var/fileconveyor/fileconveyor/synced_files.db" in the output
-    And I should see "advanced" in the output
-    And I should see "2" in the output
+    Then I should see "cdn_advanced_pid_file: \"/var/fileconveyor/fileconveyor/fileconveyor.pid\"" in the output
+    And I should see "cdn_advanced_synced_files_db: \"synced_files\"" in the output
+    And I should see "cdn_mode: \"advanced\"" in the output
+    And I should see "cdn_status: \"2\"" in the output
+    And I should see "cdn_advanced_mysql_host: \"10.1"
+    And I should see "cdn_advanced_mysql_password: \"n"
+    And I should see "cdn_advanced_mysql_username: \"th"

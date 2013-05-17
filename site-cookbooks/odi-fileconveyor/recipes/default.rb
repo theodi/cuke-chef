@@ -42,8 +42,8 @@ directory "/var/fileconveyor" do
 end
 
 git "/var/fileconveyor" do
-  repository "git://github.com/chrisivens/fileconveyor.git"
-  revision "no-delete"
+  repository "git://github.com/theodi/fileconveyor.git"
+  revision "mysql"
   user "www-data"
   group "www-data"
   action :sync
@@ -75,8 +75,17 @@ template "/var/fileconveyor/fileconveyor/config.xml" do
   group "www-data"
 end
 
+dbi  = data_bag_item "website", "credentials"
+
+db   = dbi["database"]
+
 template "/var/fileconveyor/fileconveyor/settings.py" do
   source "settings.py.erb"
+  variables(
+    :db_user  => db[node.chef_environment]["username"],
+    :db_pass  => db[node.chef_environment]["password"],
+    :db_host  => mysql_address,
+  )
   user "www-data"
   group "www-data"
 end
@@ -87,8 +96,20 @@ script 'Download CDN if not already there' do
   user "root"
   code <<-EOF
   drush dl cdn --y
+  drush en cdn --y
   EOF
   not_if { ::File.exists?("/var/www/theodi.org/sites/all/modules/cdn/cdn.module") }
+end
+
+script 'Download and enable Transliteration module if not already there' do
+  interpreter 'bash'
+  cwd '/var/www/theodi.org'
+  user "root"
+  code <<-EOF
+  drush dl transliteration --y
+  drush en transliteration --y
+  EOF
+  not_if { ::File.exists?("/var/www/theodi.org/sites/all/modules/transliteration/transliteration.module") } 
 end
 
 # Set up various things in Drupal
@@ -99,9 +120,13 @@ script 'Drush CDN stuff' do
   code <<-EOF
   drush en cdn --y
   drush ev 'variable_set("cdn_advanced_pid_file", "/var/fileconveyor/fileconveyor/fileconveyor.pid");'
-  drush ev 'variable_set("cdn_advanced_synced_files_db", "/var/fileconveyor/fileconveyor/synced_files.db");'
   drush ev 'variable_set("cdn_mode", "advanced");'
   drush ev 'variable_set("cdn_status", "2");'
+  drush ev 'variable_set("cdn_db_type", "1");'
+  drush ev 'variable_set("cdn_advanced_synced_files_db", "synced_files");'
+  drush ev 'variable_set("cdn_advanced_mysql_username", "#{db[node.chef_environment]["username"]}");'
+  drush ev 'variable_set("cdn_advanced_mysql_password", "#{db[node.chef_environment]["password"]}");'
+  drush ev 'variable_set("cdn_advanced_mysql_host", "#{mysql_address}");'  
   EOF
 end
 
