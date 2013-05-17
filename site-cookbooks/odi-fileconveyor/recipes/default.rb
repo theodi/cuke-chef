@@ -96,6 +96,7 @@ script 'Download CDN if not already there' do
   user "root"
   code <<-EOF
   drush dl cdn --y
+  drush en cdn --y
   EOF
   not_if { ::File.exists?("/var/www/theodi.org/sites/all/modules/cdn/cdn.module") }
 end
