@@ -75,8 +75,17 @@ template "/var/fileconveyor/fileconveyor/config.xml" do
   group "www-data"
 end
 
+dbi  = data_bag_item "website", "credentials"
+
+db   = dbi["database"]
+
 template "/var/fileconveyor/fileconveyor/settings.py" do
   source "settings.py.erb"
+  variables(
+    :db_user  => db[node.chef_environment]["username"],
+    :db_pass  => db[node.chef_environment]["password"],
+    :db_host  => mysql_address,
+  )
   user "www-data"
   group "www-data"
 end
