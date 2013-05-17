@@ -533,8 +533,6 @@ $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
 $conf['cache_default_class'] = 'MemCacheDrupal';
 
 $conf['memcache_servers'] = array(
-  <% @memcache_servers.each do |memcache_server| %>
-    '<%= memcache_server %>:11211' => 'default',
-  <% end %>
+  <%= @memcache_servers.map { |memcache_server| "'#{memcache_server}:11211' => 'default'"}.join(', ') %>
 );
 $conf['memcache_bins'] = array('cache' => 'default');

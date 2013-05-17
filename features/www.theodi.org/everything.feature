@@ -89,6 +89,7 @@ Feature: We have a functioning website
     Then I should see "\$base_url = 'http://theodi.org';" in the output
     And I should see "'host' => '192.168.77.20'," in the output
     And I should see "\$conf\['cache_default_class'\] = 'MemCacheDrupal';" in the output
+    And I should see "'192.168.77.42:11211' => 'default'" in the output
     And file "/var/www/theodi.org/sites/default/settings.php" should be owned by "www-data:www-data"
 
   Scenario: vhost exists
