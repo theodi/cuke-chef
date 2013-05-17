@@ -74,14 +74,14 @@ cron "drupal_cron" do
   action :create
 end
 
-mysql_node = search(:node, "name:drupal-mysql-server* AND chef_environment:#{node.chef_environment}")[0]
+mysql_node = search(:node, "name:mysql-drupal-theodi-org* AND chef_environment:#{node.chef_environment}")[0]
 
 mysql_address = mysql_node["ipaddress"]
 if mysql_node["rackspace"]
   mysql_address = mysql_node["rackspace"]["private_ip"]
 end
 
-memcache_nodes = search(:node, "name:drupal-memcache-server* AND chef_environment:#{node.chef_environment}")
+memcache_nodes = search(:node, "name:memcache-drupal-theodi-org* AND chef_environment:#{node.chef_environment}")
 memcache_servers = memcache_nodes.map do |node|
   if node["rackspace"]
     node ["rackspace"]["private_ip"]
