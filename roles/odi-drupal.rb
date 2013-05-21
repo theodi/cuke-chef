@@ -22,6 +22,6 @@ run_list "role[base]",
          "recipe[memcached]",
          "recipe[git]",
          "recipe[postfix]",
-         "recipe[drush]",
+         "recipe[drush::git]",
          "recipe[odi-website-deploy]",
          "recipe[odi-fileconveyor]"

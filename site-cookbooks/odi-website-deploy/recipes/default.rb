@@ -100,8 +100,8 @@ template "/var/www/theodi.org/sites/default/settings.php" do
       :database  => db[node.chef_environment]["database"],
       :db_user   => db[node.chef_environment]["username"],
       :db_pass   => db[node.chef_environment]["password"],
-  #    :db_host   => db[node.chef_environment]["host"],
-      :db_host  => mysql_address,
+      :db_host   => db[node.chef_environment]["host"],
+  #    :db_host  => mysql_address,
       :db_driver => db[node.chef_environment]["driver"],
       :memcache_servers => memcache_servers,
   )

@@ -1,4 +1,4 @@
-@drupal-mysql-server
+@mysql-drupal-theodi-org-cucumber
 Feature: Build a functioning MySQL server
 
   In order to run database stuff
@@ -6,10 +6,10 @@ Feature: Build a functioning MySQL server
   I want to install and configure MySQL
 
   Background:
-    * I have a server called "drupal-mysql-server"
-    * "drupal-mysql-server" is running "ubuntu" "precise"
-    * "drupal-mysql-server" should be persistent
-    * "drupal-mysql-server" has an IP address of "192.168.77.20"
+    * I have a server called "mysql-drupal-theodi-org-cucumber"
+    * "mysql-drupal-theodi-org-cucumber" is running "ubuntu" "precise"
+    * "mysql-drupal-theodi-org-cucumber" should be persistent
+    * "mysql-drupal-theodi-org-cucumber" has an IP address of "192.168.77.20"
 
     * the following environment has been uploaded:
       | environment | environment_path |
@@ -24,23 +24,23 @@ Feature: Build a functioning MySQL server
       | databases | ./data_bags/databases |
       | envs      | ./data_bags/envs      |
 
-    * "drupal-mysql-server" is in the "cucumber" environment
-    * "drupal-mysql-server" has been provisioned
+    * "mysql-drupal-theodi-org-cucumber" is in the "cucumber" environment
+    * "mysql-drupal-theodi-org-cucumber" has been provisioned
 
     * all of the cookbooks in "./cookbooks" have been uploaded
     * all of the cookbooks in "./site-cookbooks" have been uploaded
 
-    * the "chef-client::cron" recipe has been added to the "drupal-mysql-server" run list
-    * the "squirrel" role has been added to the "drupal-mysql-server" run list
-    * the chef-client has been run on "drupal-mysql-server"
+    * the "chef-client::cron" recipe has been added to the "mysql-drupal-theodi-org-cucumber" run list
+    * the "squirrel" role has been added to the "mysql-drupal-theodi-org-cucumber" run list
+    * the chef-client has been run on "mysql-drupal-theodi-org-cucumber"
 
-    * I ssh to "drupal-mysql-server" with the following credentials:
+    * I ssh to "mysql-drupal-theodi-org-cucumber" with the following credentials:
       | username | keyfile |
       | $lxc$    | $lxc$   |
 
   Scenario: Can connect to the provisioned server via SSH authentication
     When I run "hostname"
-    Then I should see "drupal-mysql-server" in the output
+    Then I should see "mysql-drupal-theodi-org-cucumber" in the output
 
   Scenario: MySQL is installed
     * package "mysql-server" should be installed

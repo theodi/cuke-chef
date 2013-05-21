@@ -51,40 +51,48 @@ end
 
 dbi = data_bag_item "website", "credentials"
 
+db        = dbi["database"]
 rackspace = dbi["rackspace"]
 
 # Install dependencies - cd into the /var/fileconveyor directory and run 'setup.py install'
 
 script 'Install Fileconveyor dependencies' do
-    interpreter 'bash'
-    cwd '/var/fileconveyor'
-    user "root"
-    code <<-EOF
+  interpreter 'bash'
+  cwd '/var/fileconveyor'
+  user "root"
+  code <<-EOF
     python ./setup.py install
-    EOF
+  EOF
 end
 
 template "/var/fileconveyor/fileconveyor/config.xml" do
   source "config.xml.erb"
   variables(
-    :username   => rackspace[node.chef_environment]["username"],
-    :api_key    => rackspace[node.chef_environment]["api_key"],
-    :container => rackspace[node.chef_environment]["container"]
+      :username  => rackspace[node.chef_environment]["username"],
+      :api_key   => rackspace[node.chef_environment]["api_key"],
+      :container => rackspace[node.chef_environment]["container"]
   )
   user "www-data"
   group "www-data"
 end
 
-dbi  = data_bag_item "website", "credentials"
+dbi = data_bag_item "website", "credentials"
 
-db   = dbi["database"]
+db = dbi["database"]
+
+mysql_node = search(:node, "name:mysql-drupal-theodi-org* AND chef_environment:#{node.chef_environment}")[0]
+
+mysql_address = mysql_node["ipaddress"]
+if mysql_node["rackspace"]
+  mysql_address = mysql_node["rackspace"]["private_ip"]
+end
 
 template "/var/fileconveyor/fileconveyor/settings.py" do
   source "settings.py.erb"
   variables(
-    :db_user  => db[node.chef_environment]["username"],
-    :db_pass  => db[node.chef_environment]["password"],
-    :db_host  => mysql_address,
+      :db_user => db[node.chef_environment]["username"],
+      :db_pass => db[node.chef_environment]["password"],
+      :db_host => mysql_address
   )
   user "www-data"
   group "www-data"
@@ -109,7 +117,7 @@ script 'Download and enable Transliteration module if not already there' do
   drush dl transliteration --y
   drush en transliteration --y
   EOF
-  not_if { ::File.exists?("/var/www/theodi.org/sites/all/modules/transliteration/transliteration.module") } 
+  not_if { ::File.exists?("/var/www/theodi.org/sites/all/modules/transliteration/transliteration.module") }
 end
 
 # Set up various things in Drupal
@@ -134,8 +142,8 @@ end
 template "/etc/init/arbitrator.conf" do
   source "arbitrator.conf.erb"
   variables(
-    :path   => "/var/fileconveyor/fileconveyor",
-    :user   => "www-data"
+      :path => "/var/fileconveyor/fileconveyor",
+      :user => "www-data"
   )
   user "www-data"
   group "www-data"
