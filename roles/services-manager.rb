@@ -13,6 +13,10 @@ default_attributes 'user'              => 'services-manager',
                            'minute'     => "*/5",
                            'log_file'   => "/var/log/chef/cron.log"
                        }
+                   },
+                   'cert'              => {
+                       'name' => 'xero',
+                       'file' => 'privatekey.pem'
                    }
 
 override_attributes 'envbuilder'  => {
@@ -37,6 +41,7 @@ run_list "role[base]",
          "recipe[odi-rvm]",
          "recipe[odi-xml]",
          "recipe[odi-nginx]",
+         "recipe[odi-cert-deployer]",
          "recipe[xslt]",
          "recipe[libcurl]",
          "recipe[envbuilder]",
