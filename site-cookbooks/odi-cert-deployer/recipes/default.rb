@@ -24,6 +24,13 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+#if not node['certs']
+#  node['certs'] = [
+#      node['cert']
+#  ]
+#end
+
+#node['certs'].each do |c|
 cert_for = node['cert']['name']
 outfile  = node['cert']['file']
 
@@ -39,18 +46,25 @@ end
 
 dbi = data_bag_item("certs", cert_for)
 
-file temp_file do
-  action :create
-  content dbi["cert"]
-end
+if dbi["cert"][0..30] == "-----BEGIN RSA PRIVATE KEY-----"
+  file "#{target_dir}/#{outfile}" do
+    action :create
+    content dbi["cert"]
+  end
+else
+  file temp_file do
+    action :create
+    content dbi["cert"]
+  end
 
-script "base64 (how low can you go?)" do
-  interpreter 'bash'
-  code <<-EOF
+  script "base64 (how low can you go?)" do
+    interpreter 'bash'
+    code <<-EOF
         openssl base64 -d -in #{temp_file} -out #{target_dir}/#{outfile}
-  EOF
-end
+    EOF
+  end
 
-file temp_file do
-  action :delete
+  file temp_file do
+    action :delete
+  end
 end
