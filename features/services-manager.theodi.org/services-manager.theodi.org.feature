@@ -18,6 +18,11 @@ Feature: Build a fully-operational battlestation^W services-manager.theodi.org n
       | role         | role_path |
       | *.rb         | ./roles/  |
 
+    * the following databags have been updated:
+      | databag          | databag_path                 |
+      | envs             | ./data_bags/envs             |
+      | certs            | ./data_bags/certs            |
+
     * "services-manager" is in the "cucumber" environment
     * "services-manager" has been provisioned
 
@@ -149,3 +154,9 @@ location @backend {
 
   Scenario: nginx should be restarted
 ## we can't really test this
+
+  @xero
+  Scenario: xero cert exists
+    * file "/etc/certs/xero/privatekey.pem" should exist
+    When I run "cat /etc/certs/xero/privatekey.pem"
+    Then I should see "V8lu0NcIVwuH" in the output
