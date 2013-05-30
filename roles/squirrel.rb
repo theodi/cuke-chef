@@ -1,9 +1,8 @@
 name 'squirrel'
 
-default_attributes 'user'              => 'hoppler',
-                   'group'             => 'hoppler',
-                   'ruby'              => '2.0.0-p0'
-
+default_attributes 'user'  => 'hoppler',
+                   'group' => 'hoppler',
+                   'ruby'  => '2.0.0-p0'
 
 override_attributes "envbuilder" => {
     "base_dir" => "/home/hoppler/",
@@ -11,8 +10,8 @@ override_attributes "envbuilder" => {
     "owner"    => "hoppler",
     "group"    => "hoppler"
 }
+
 run_list "role[base]",
          "recipe[odi-mysql::server]",
          "recipe[envbuilder]",
          "recipe[hoppler]"
-
