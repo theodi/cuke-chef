@@ -27,6 +27,7 @@
 #node.set['user'] = 'odi'
 #node.set['group'] = 'odi'
 
+
 node.set['rvm']['user_installs'] = [
   { 'user'          => node['user'],
     'default_ruby'  => node['ruby'],
@@ -35,5 +36,6 @@ node.set['rvm']['user_installs'] = [
     ]
   }
 ]
+
 
 include_recipe "rvm::user_install"
