@@ -29,6 +29,7 @@ include_recipe 'git'
 if [
     'experimental',
     'production',
+    'odc-production',
     'cucumber'
 ].include? node.chef_environment
   root_dir = "/var/www/%s" % [
@@ -55,31 +56,14 @@ if [
     end
   end
 
-#  [
-#      "database.yml"
-##      "env"
-#  ].each do |f|
-#    p   = "%s/%s/%s" % [
-#        root_dir,
-#        "shared/config",
-#        f
-#    ]
-#    dbi = nil
-#    file p do
-#      action :create
-#      begin
-#        dbi = data_bag_item("%s" % [
-#            node['git_project']
-#        ],
-#                            f.split('.').first)
-#
-#        content dbi["content"].to_yaml
-#
-#      rescue Net::HTTPServerException
-#      end
-#    end
-#
-#  end
+  dbi                       = data_bag_item "databases", "credentials"
+  db_pass                   = dbi[node['mysql_db']][node.chef_environment]
+
+  db_box = search(:node, "name:mysql-#{node['mysql_db']}* AND chef_environment:#{node.chef_environment}")[0]
+  db_ip = db_box["ipaddress"]
+  if db_box["rackspace"]
+    db_ip = db_box["rackspace"]["private_ip"]
+  end
 
   deploy_revision root_dir do
     user node['user']
@@ -102,50 +86,21 @@ if [
       running_deploy_user       = new_resource.user
       bundler_depot             = new_resource.shared_path + '/bundle'
 
-      #script "FFS RVM" do
-      #  interpreter 'bash'
-      #  user running_deploy_user
-      #  code <<-EOF
-      #  echo "/home/#{running_deploy_user}/.rvm/bin/rvm rvmrc trust #{current_release_directory}" > /tmp/ffs
-      #  /home/#{running_deploy_user}/.rvm/bin/rvm rvmrc trust #{current_release_directory}
-      #  EOF
-      #end
-      #
-      #script "Don't use .rvmrc no more" do
-      #  interpreter 'bash'
-      #  cwd current_release_directory
-      #  user running_deploy_user
-      #  code <<-EOF
-      #  cd #{current_release_directory}
-      #  /home/#{running_deploy_user}/.rvm/bin/rvm rvmrc to .ruby-version
-      #  EOF
-      #end
-
-      [
+      template "%s/%s/%s" % [
+          current_release_directory,
+          "config",
           "database.yml"
-      ].each do |f|
-        p   = "%s/%s/%s" % [
-#            root_dir,
-            current_release_directory,
-            "config",
-            f
-        ]
-        dbi = nil
-        file p do
-          action :create
-          begin
-            dbi = data_bag_item(
-                "%s" % [
-                    node['git_project']
-                ],
-                f.split('.').first
-            )
-
-            content dbi["content"].to_yaml
-
-          rescue Net::HTTPServerException
-          end
-        end
+      ] do
+        action :create
+        source "database.yml.erb"
+        owner running_deploy_user
+        group running_deploy_user
+        variables(
+            :database => node['mysql_db'],
+            :db_user  => node['mysql_db'],
+            :db_pass  => db_pass,
+            :db_host  => db_ip
+        )
       end
 
       script 'Link me some links' do
@@ -163,6 +118,7 @@ if [
         user running_deploy_user
         code <<-EOF
         bundle install \
+          --without=development \
           --quiet \
           --path #{bundler_depot}
         EOF
@@ -175,7 +131,6 @@ if [
         code <<-EOF
         RAILS_ENV=production bundle exec rake assets:precompile
         EOF
-        # Redis configuration not set!!!
       end
     end
 
