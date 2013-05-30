@@ -7,7 +7,7 @@ Feature: Build a fully-operational battlestation^W dashboards.theodi.org node fr
 
   Background:
     * I have a server called "dashboards"
-    * "dashboards" is running "ubuntu" "raring"
+    * "dashboards" is running "ubuntu" "precise"
     * "dashboards" should be persistent
 
     * the following environment has been uploaded:
@@ -17,6 +17,10 @@ Feature: Build a fully-operational battlestation^W dashboards.theodi.org node fr
     * the following roles have been uploaded:
       | role         | role_path |
       | *.rb         | ./roles/  |
+
+    * the following databags have been updated:
+      | databag          | databag_path                 |
+      | envs             | ./data_bags/envs             |
 
     * "dashboards" is in the "cucumber" environment
     * "dashboards" has been provisioned

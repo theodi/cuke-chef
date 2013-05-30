@@ -97,7 +97,7 @@ calendar ALL=NOPASSWD:ALL
     And I should see "RESQUE_REDIS_HOST: 151" in the output
     And I should see "RESQUE_REDIS_PASSWORD: W"
   
-  @certificate  
+  @cert
   Scenario: The Google apps certificate file is uploaded
     * file "/etc/certs/googleapps/privatekey.p12" should exist
     When I run "md5sum /etc/certs/googleapps/privatekey.p12"
