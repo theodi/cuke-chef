@@ -24,9 +24,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-dbi = data_bag_item 'databases', 'www'
+dbi = data_bag_item 'databases', 'rootlogins'
 
-node.set['mysql']['server_root_password'] = dbi[node.chef_environment]['password']
+node.set['mysql']['server_root_password'] = dbi[node['git_project']][node.chef_environment]
 
 listen_address = node["ipaddress"]
 if node["rackspace"]
@@ -34,5 +34,13 @@ if node["rackspace"]
 end
 
 node.set['mysql']['bind_address'] = listen_address
+node.save
+
+#script "ffs" do
+#  interpreter 'bash'
+#  code <<-EOF
+#echo #{node.set['mysql']['server_root_password']} > /tmp/ffs
+#  EOF
+#end
 
 include_recipe "mysql::server"
