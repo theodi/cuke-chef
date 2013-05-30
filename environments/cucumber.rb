@@ -14,11 +14,7 @@ default_attributes 'ENV'      => 'production',
                     #    'group'    => 'vagrant',
                     #    'base_dir' => '/home/env/'
                     #},
-override_attributes 'deploy' => {
-                        'migrate' => false,
-                        'revision' => 'CURRENT'
-                    },
-                    'chef_client'       => {
+override_attributes                     'chef_client'       => {
                         'cron' => {
                             'use_cron_d' => true,
                             'hour'       => "0",
@@ -27,16 +23,16 @@ override_attributes 'deploy' => {
                         }
                     }
 
-cookbook 'apt', '= 1.9.0'
-cookbook 'build-essential', '= 1.3.4'
+#cookbook 'apt', '= 1.9.0'
+#cookbook 'build-essential', '= 1.3.4'
 cookbook 'envbuilder', '= 0.1.5'
-cookbook 'git', '= 2.3.0'
+#cookbook 'git', '= 2.3.0'
 cookbook 'imagemagick', '= 0.2.2'
 cookbook 'libcurl', '= 0.1.0'
-cookbook 'mysql', '= 2.1.2'
-cookbook 'nginx', '= 1.4.0'
+#cookbook 'mysql', '= 2.1.2'
+#cookbook 'nginx', '= 1.4.0'
 #cookbook 'nodejs', '= 1.1.1'
-cookbook 'odi-deployment', '= 0.1.0'
+#cookbook 'odi-deployment', '= 0.1.2'
 cookbook 'odi-nginx', '= 0.1.2'
 cookbook 'odi-rvm', '= 0.1.0'
 cookbook 'odi-users', '= 0.1.0'
