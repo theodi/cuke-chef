@@ -44,6 +44,8 @@ user "%s" % [
   action :create
 end
 
+include_recipe "envbuilder"
+
 file "/etc/sudoers.d/%s" % [
     hoppler
 ] do
@@ -65,9 +67,9 @@ end
 
 include_recipe "odi-rvm"
 
-dbi = data_bag_item 'databases', 'www'
+dbi = data_bag_item 'databases', 'rootlogins'
 
-node.set['mysql']['server_root_password'] = dbi[node.chef_environment]['password']
+node.set['mysql']['server_root_password'] = dbi[node['git_project']][node.chef_environment]
 
 git "/home/%s/hoppler" % [
     hoppler
