@@ -1,1 +1,4 @@
-default: --quiet
+default: --quiet --exclude cookbooks --exclude site-cookbooks --exclude environments --exclude roles --exclude data_bags
+
+#default: --color --verbose --backtrace --exclude support/cookbooks --exclude support/data_bags --exclude support/environments --exclude support/keys --exclude support/roles --format pretty
+
