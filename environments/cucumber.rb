@@ -23,9 +23,9 @@ override_attributes                     'chef_client'       => {
                         }
                     }
 
-#cookbook 'apt', '= 1.9.0'
+cookbook 'apt', '= 1.9.0'
 #cookbook 'build-essential', '= 1.3.4'
-cookbook 'envbuilder', '= 0.1.5'
+#cookbook 'envbuilder', '= 0.1.5'
 #cookbook 'git', '= 2.3.0'
 cookbook 'imagemagick', '= 0.2.2'
 cookbook 'libcurl', '= 0.1.0'
