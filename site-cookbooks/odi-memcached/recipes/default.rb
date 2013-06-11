@@ -31,6 +31,6 @@ if node["rackspace"]
 end
 node.set['memcached']['listen'] = listen_address
 
-node.set['memcached']['memory'] = 768
+node.set['memcached']['memory'] = node['odi-memcached']['memory']
 
 include_recipe "memcached"
