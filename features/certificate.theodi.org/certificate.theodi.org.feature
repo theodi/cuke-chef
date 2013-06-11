@@ -82,10 +82,10 @@ certificate ALL=NOPASSWD:ALL
     * package "nginx" should be installed
 
   Scenario: The env file exists
-    * file "/var/www/certificate.theodi.org/shared/config/env" should exist
+    * file "/var/www/certificates.theodi.org/shared/config/env" should exist
 
   Scenario: The env file contains the correct stuff
-    When I run "cat /var/www/certificate.theodi.org/shared/config/env"
+    When I run "cat /var/www/certificates.theodi.org/shared/config/env"
     Then I should see "JENKINS_URL: http://jenkins.theodi.org" in the output
     And I should see "RESQUE_REDIS_HOST: 151" in the output
     And I should see "EVENTBRITE_API_KEY: IZ" in the output
@@ -98,23 +98,29 @@ certificate ALL=NOPASSWD:ALL
     And I should see "XERO_PRIVATE_KEY_PATH: /etc" in the output
     And I should see "COURSES_RSYNC_PATH: json" in the output
 
+  @env
+  Scenario: environment-specific env file contains correct stuff
+    When I run "cat /var/www/certificates.theodi.org/current/.env.production"
+    Then I should see "MEMCACHED_HOSTS: 192.168.77.42" in the output
+    And file "/var/www/certificates.theodi.org/current/.env.production" should be owned by "certificate:certificate"
+
   Scenario: Code is deployed
-    * directory "/var/www/certificate.theodi.org" should exist
-    * directory "/var/www/certificate.theodi.org/releases" should exist
-    * directory "/var/www/certificate.theodi.org/shared" should exist
-    * directory "/var/www/certificate.theodi.org/shared/config" should exist
-    * directory "/var/www/certificate.theodi.org/shared/pid" should exist
-    * directory "/var/www/certificate.theodi.org/shared/log" should exist
-    * directory "/var/www/certificate.theodi.org/shared/system" should exist
+    * directory "/var/www/certificates.theodi.org" should exist
+    * directory "/var/www/certificates.theodi.org/releases" should exist
+    * directory "/var/www/certificates.theodi.org/shared" should exist
+    * directory "/var/www/certificates.theodi.org/shared/config" should exist
+    * directory "/var/www/certificates.theodi.org/shared/pid" should exist
+    * directory "/var/www/certificates.theodi.org/shared/log" should exist
+    * directory "/var/www/certificates.theodi.org/shared/system" should exist
 
   @config
   Scenario: configuration stuff is correct
-    * file "/var/www/certificate.theodi.org/current/config/database.yml" should exist
-    * file "/var/www/certificate.theodi.org/current/config/database.yml" should be owned by "certificate:certificate"
-    * symlink "/var/www/certificate.theodi.org/current/.env" should exist
+    * file "/var/www/certificates.theodi.org/current/config/database.yml" should exist
+    * file "/var/www/certificates.theodi.org/current/config/database.yml" should be owned by "certificate:certificate"
+    * symlink "/var/www/certificates.theodi.org/current/.env" should exist
     When I run "stat -c %N /var/www/certificate.theodi.org/current/.env"
     Then I should see "../../shared/config/env" in the output
-    When I run "cat /var/www/certificate.theodi.org/current/config/database.yml"
+    When I run "cat /var/www/certificates.theodi.org/current/config/database.yml"
     Then I should see "production:" in the output
     And I should see "adapter: mysql2" in the output
     And I should see "port: 3306" in the output
@@ -124,7 +130,7 @@ certificate ALL=NOPASSWD:ALL
     And I should see "password: etacifitrec" in the output
 
   Scenario: Assets have been compiled
-    * directory "/var/www/certificate.theodi.org/current/public/assets/" should exist
+    * directory "/var/www/certificates.theodi.org/current/public/assets/" should exist
 
   @startup
   Scenario: Startup scripts are in play
@@ -132,7 +138,7 @@ certificate ALL=NOPASSWD:ALL
     * file "/etc/init/open-data-certificate-thin.conf" should exist
     * file "/etc/init/open-data-certificate-thin-1.conf" should exist
     When I run "cat /etc/init/open-data-certificate-thin-1.conf"
-    Then I should see "exec su - certificate" in the output
+    Then I should see "exec su - certificates" in the output
     And I should see "export PORT=3000" in the output
 #    And I should see "RACK_ENV=production" in the output
     And I should see "/var/log/open-data-certificate/thin-1.log" in the output
@@ -140,11 +146,11 @@ certificate ALL=NOPASSWD:ALL
   @nginx
   Scenario: nginx virtualhosts are correct
     * symlink "/etc/nginx/sites-enabled/default" should not exist
-    * file "/etc/nginx/sites-available/certificate.theodi.org" should exist
+    * file "/etc/nginx/sites-available/certificates.theodi.org" should exist
 
   @nginx
   Scenario: virtualhost should contain correct stuff
-    * file "/etc/nginx/sites-available/certificate.theodi.org" should contain
+    * file "/etc/nginx/sites-available/certificates.theodi.org" should contain
     """
 upstream open-data-certificate {
   server 127.0.0.1:3000;
@@ -152,15 +158,15 @@ upstream open-data-certificate {
 
 server {
   listen 80 default;
-  server_name certificate.theodi.org;
-  access_log /var/log/nginx/certificate.theodi.org.log;
-  error_log /var/log/nginx/certificate.theodi.org.err;
+  server_name certificates.theodi.org;
+  access_log /var/log/nginx/certificates.theodi.org.log;
+  error_log /var/log/nginx/certificates.theodi.org.err;
   location / {
     try_files $uri @backend;
   }
 
   location ~ ^/(assets)/  {
-    root /var/www/certificate.theodi.org/current/public/;
+    root /var/www/certificates.theodi.org/current/public/;
     gzip_static on; # to serve pre-gzipped version
     expires max;
     add_header Cache-Control public;
@@ -173,9 +179,31 @@ server {
   }
 }
     """
+  @nginx
+  Scenario: virtualhost should be symlinked
+    * symlink "/etc/nginx/sites-enabled/certificates.theodi.org" should exist
 
+  @nginx @redirect
+  Scenario: redirecting vhost should redirect
+    * file "/etc/nginx/sites-available/certificate.theodi.org" should contain
+    """
+server {
+  listen 80;
+  server_name certificate.theodi.org;
+  access_log /var/log/nginx/certificate.theodi.org.log;
+  error_log /var/log/nginx/certificate.theodi.org.err;
+  rewrite  ^/(.*)$ http://certificates.theodi.org/$1 permanent;
+}
+      """
+
+  @nginx @redirect
   Scenario: virtualhost should be symlinked
     * symlink "/etc/nginx/sites-enabled/certificate.theodi.org" should exist
 
 #  Scenario: nginx should be restarted
 ## we can't really test this
+
+  @chef-client
+  Scenario: chef-client is cronned
+    When I run "cat /etc/cron.d/chef-client"
+    Then I should see "/usr/bin/chef-client &> /var/log/chef/cron.log" in the output
