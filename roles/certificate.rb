@@ -3,10 +3,14 @@ name 'certificate'
 default_attributes 'user'              => 'certificate',
                    'group'             => 'certificate',
                    'ruby'              => '1.9.3-p392',
-                   'project_fqdn'      => 'certificate.theodi.org',
+                   'project_fqdn'      => 'certificates.theodi.org',
                    'mysql_db'          => 'certificate',
+                   'memcached_node'    => 'certificate',
                    'git_project'       => 'open-data-certificate',
                    'migration_command' => 'bundle exec rake db:migrate ; bundle exec rake surveyor:build_changed_surveys',
+                   '301_redirects'     => [
+                       'certificate.theodi.org'
+                   ],
                    'chef_client'       => {
                        'cron' => {
                            'use_cron_d' => true,
@@ -14,18 +18,18 @@ default_attributes 'user'              => 'certificate',
                            'minute'     => "*/5",
                            'log_file'   => "/var/log/chef/cron.log"
                        }
-                   }
+                   },
+                   'require_memcached' => true
 
-override_attributes 'envbuilder'  => {
-    'base_dir' => '/var/www/certificate.theodi.org/shared/config',
+override_attributes 'envbuilder'    => {
+    'base_dir' => '/var/www/certificates.theodi.org/shared/config',
     'owner'    => 'certificate',
     'group'    => 'certificate'
 },
-                    'chef_client' => {
+                    'chef_client'   => {
                         'interval' => 300,
                         'splay'    => 30
                     }
-
 
 run_list "role[base]",
          "recipe[chef-client::cron]",
