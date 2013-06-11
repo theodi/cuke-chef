@@ -56,21 +56,23 @@ if [
     end
   end
 
-  dbi                       = data_bag_item "databases", "credentials"
-  db_pass                   = dbi[node['mysql_db']][node.chef_environment]
+  dbi     = data_bag_item "databases", "credentials"
+  db_pass = dbi[node['mysql_db']][node.chef_environment]
 
   db_box = search(:node, "name:mysql-#{node['mysql_db']}* AND chef_environment:#{node.chef_environment}")[0]
-  db_ip = db_box["ipaddress"]
+  db_ip  = db_box["ipaddress"]
   if db_box["rackspace"]
     db_ip = db_box["rackspace"]["private_ip"]
   end
+
+  mcs             = search(:node, "name:memcached-#{node['memcached_node']}* AND chef_environment:#{node.chef_environment}")
 
   deploy_revision root_dir do
     user node['user']
     group node['group']
     environment "RACK_ENV" => node['RACK_ENV'],
                 "HOME"     => "/home/#{user}"
-#              "rvmsudo_secure_path" => 1
+
     keep_releases 10
     rollback_on_error true
 
@@ -141,6 +143,31 @@ if [
       current_release_directory = release_path
       running_deploy_user       = new_resource.user
 
+      if node['require_memcached']
+        memcached_nodes = []
+        mcs.each do |mc|
+          ip = mc['ipaddress']
+          if mc['rackspace']
+            ip = mc['rackspace']['private_ip']
+          end
+
+          memcached_nodes << ip
+        end
+
+        e = "%s/.env.%s" % [
+            current_release_directory,
+            node["RACK_ENV"]
+        ]
+
+        f = File.open e, "a"
+
+        f.write "MEMCACHED_HOSTS: %s\n" % [
+            memcached_nodes.join(" ")
+        ]
+        f.close
+        FileUtils.chown running_deploy_user, running_deploy_user, e
+      end
+
       script 'Generate startup scripts with Foreman' do
         interpreter 'bash'
         cwd current_release_directory
@@ -156,7 +183,7 @@ if [
         EOF
       end
     end
-#          -c thin=#{node['thin_concurrency']} \
+
     restart_command "sudo service #{node['git_project']} restart"
     action :deploy
   end
