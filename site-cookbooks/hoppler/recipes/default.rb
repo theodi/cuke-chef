@@ -56,15 +56,6 @@ file "/etc/sudoers.d/%s" % [
   action :create
 end
 
-#node.set['rvm']['user_installs'] = [
-#    { 'user'         => hoppler,
-#      'default_ruby' => "2.0.0",
-#      'rubies'       => [
-#          "2.0.0"
-#      ]
-#    }
-#]
-
 include_recipe "odi-rvm"
 
 dbi = data_bag_item 'databases', 'rootlogins'

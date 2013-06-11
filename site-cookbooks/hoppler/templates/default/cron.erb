@@ -1,2 +1,4 @@
-0 <%= @backup_hour %> * * * hoppler cd /home/hoppler/hoppler && rake hoppler:backup
-0 <%= @cleanup_hour %> * * <%= @cleanup_day %> hoppler cd /home/hoppler/hoppler && rake hoppler:cleanup
+# Dropped here by Chef
+
+0 <%= @backup_hour %> * * * root su - hoppler -c 'cd /home/hoppler/hoppler && `which rake` hoppler:backup'
+0 <%= @cleanup_hour %> * * 7 root su - hoppler -c 'cd /home/hoppler/hoppler && `which rake` hoppler:cleanup'
