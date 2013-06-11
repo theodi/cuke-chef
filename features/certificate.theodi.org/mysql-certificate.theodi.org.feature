@@ -30,7 +30,6 @@ Feature: Build a functioning MySQL server
     * all of the cookbooks in "./cookbooks" have been uploaded
     * all of the cookbooks in "./site-cookbooks" have been uploaded
 
-    * the "chef-client::cron" recipe has been added to the "mysql-certificate-theodi-org-cucumber" run list
     * the "open-data-certificate-attrs" role has been added to the "mysql-certificate-theodi-org-cucumber" run list
     * the "mysql-node" role has been added to the "mysql-certificate-theodi-org-cucumber" run list
     * the chef-client has been run on "mysql-certificate-theodi-org-cucumber"
@@ -71,8 +70,8 @@ Feature: Build a functioning MySQL server
     * file "/home/hoppler/hoppler/lib/hoppler.rb" should exist
     * file "/etc/cron.d/hoppler" should contain
     """
-    0 2 * * * hoppler cd /home/hoppler/hoppler && rake hoppler:backup
-    0 3 * * 7 hoppler cd /home/hoppler/hoppler && rake hoppler:cleanup
+0 2 * * * root su - hoppler -c 'cd /home/hoppler/hoppler && `which rake` hoppler:backup'
+0 3 * * 7 root su - hoppler -c 'cd /home/hoppler/hoppler && `which rake` hoppler:cleanup'
     """
 
   @creds
@@ -98,3 +97,7 @@ Feature: Build a functioning MySQL server
     And I should see "RACKSPACE_DIRECTORY_ASSET_HOST: http://3c15e47727" in the output
     And I should see "RACKSPACE_API_ENDPOINT: lon.auth.api.rackspacecloud.com" in the output
 
+  @chef-client
+  Scenario: chef-client is cronned
+    When I run "cat /etc/cron.d/chef-client"
+    Then I should see "/usr/bin/chef-client &> /var/log/chef/cron.log" in the output
