@@ -21,3 +21,7 @@ cookbook 'redisio', '= 1.4.1'
 cookbook 'rvm', '= 0.0.2'
 cookbook 'sqlite', '= 0.1.0'
 cookbook 'xslt', '= 0.0.1'
+cookbook 'hoppler', '= 0.1.2'
+cookbook 'apt', '= 1.9.0'
+cookbook 'odi-deployment', '= 0.2.1'
+
