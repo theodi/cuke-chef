@@ -31,7 +31,7 @@ Feature: Build a logstash node
       | envs             | ./data_bags/envs             |
 
     * the "chef-client::cron" recipe has been added to the "logstash-theodi-org-cucumber" run list
-    * the "logstash" role has been added to the "logstash-theodi-org-cucumber" run list
+    * the "logstash_server" role has been added to the "logstash-theodi-org-cucumber" run list
     * the chef-client has been run on "logstash-theodi-org-cucumber"
 
     * I ssh to "logstash-theodi-org-cucumber" with the following credentials:

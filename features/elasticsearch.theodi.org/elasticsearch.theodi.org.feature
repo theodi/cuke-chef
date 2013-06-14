@@ -31,7 +31,7 @@ Feature: Build an elasticsearch node
       | envs             | ./data_bags/envs             |
 
     * the "chef-client::cron" recipe has been added to the "elasticsearch-theodi-org-cucumber" run list
-    * the "elasticsearch" role has been added to the "elasticsearch-theodi-org-cucumber" run list
+    * the "elasticsearch_server" role has been added to the "elasticsearch-theodi-org-cucumber" run list
     * the chef-client has been run on "elasticsearch-theodi-org-cucumber"
 
     * I ssh to "elasticsearch-theodi-org-cucumber" with the following credentials:
