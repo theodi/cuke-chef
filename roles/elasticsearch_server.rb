@@ -1,4 +1,4 @@
-name 'elasticsearch'
+name 'elasticsearch_server'
 
 default_attributes 'elasticsearch' => {
     'cluster_name' => 'logstash',
