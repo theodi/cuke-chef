@@ -144,23 +144,22 @@ certificate ALL=NOPASSWD:ALL
     And I should see "/var/log/open-data-certificate/thin-1.log" in the output
 
   @nginx
-  Scenario: nginx virtualhosts are correct
+  Scenario: nginx default vhost is disabled
     * symlink "/etc/nginx/sites-enabled/default" should not exist
-    * file "/etc/nginx/sites-available/certificates.theodi.org" should exist
 
   @nginx
-  Scenario: virtualhost should contain correct stuff
-    * file "/etc/nginx/sites-available/certificates.theodi.org" should contain
+  Scenario: certificates on port 81 should be the ultimate destination
+    * file "/etc/nginx/sites-available/certificates.theodi.org.ssl" should contain
     """
 upstream open-data-certificate {
   server 127.0.0.1:3000;
 }
 
 server {
-  listen 80 default;
+  listen 81 default;
   server_name certificates.theodi.org;
-  access_log /var/log/nginx/certificates.theodi.org.log;
-  error_log /var/log/nginx/certificates.theodi.org.err;
+  access_log /var/log/nginx/certificates.theodi.org.ssl.log;
+  error_log /var/log/nginx/certificates.theodi.org.ssl.err;
   location / {
     try_files $uri @backend;
   }
@@ -179,12 +178,24 @@ server {
   }
 }
     """
-  @nginx
-  Scenario: virtualhost should be symlinked
-    * symlink "/etc/nginx/sites-enabled/certificates.theodi.org" should exist
+    * symlink "/etc/nginx/sites-enabled/certificates.theodi.org.ssl" should exist
 
   @nginx @redirect
-  Scenario: redirecting vhost should redirect
+  Scenario: certificates on port 80 should redirect
+    * file "/etc/nginx/sites-available/certificates.theodi.org" should contain
+    """
+server {
+  listen 80;
+  server_name certificates.theodi.org;
+  access_log /var/log/nginx/certificates.theodi.org.log;
+  error_log /var/log/nginx/certificates.theodi.org.err;
+  rewrite  ^/(.*)$ https://certificates.theodi.org/$1 permanent;
+}
+      """
+    * symlink "/etc/nginx/sites-enabled/certificates.theodi.org" should exist
+
+  @nginx @redirect @wip
+  Scenario: certificate on port 80 should redirect
     * file "/etc/nginx/sites-available/certificate.theodi.org" should contain
     """
 server {
@@ -192,13 +203,24 @@ server {
   server_name certificate.theodi.org;
   access_log /var/log/nginx/certificate.theodi.org.log;
   error_log /var/log/nginx/certificate.theodi.org.err;
-  rewrite  ^/(.*)$ http://certificates.theodi.org/$1 permanent;
+  rewrite  ^/(.*)$ https://certificates.theodi.org/$1 permanent;
 }
       """
-
-  @nginx @redirect
-  Scenario: virtualhost should be symlinked
     * symlink "/etc/nginx/sites-enabled/certificate.theodi.org" should exist
+
+  @nginx @redirect @wip
+  Scenario: certificate on port 81 should redirect
+    * file "/etc/nginx/sites-available/certificate.theodi.org.ssl" should contain
+    """
+server {
+  listen 81;
+  server_name certificate.theodi.org;
+  access_log /var/log/nginx/certificate.theodi.org.ssl.log;
+  error_log /var/log/nginx/certificate.theodi.org.ssl.err;
+  rewrite  ^/(.*)$ https://certificates.theodi.org/$1 permanent;
+}
+      """
+    * symlink "/etc/nginx/sites-enabled/certificate.theodi.org.ssl" should exist
 
 #  Scenario: nginx should be restarted
 ## we can't really test this
