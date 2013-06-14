@@ -3,10 +3,10 @@ upstream <%= @project_name %> {
 }
 
 server {
-  listen 80 default;
+  listen <%= @port %> default;
   server_name <%= @fqdn %>;
-  access_log /var/log/nginx/<%= @fqdn %>.log;
-  error_log /var/log/nginx/<%= @fqdn %>.err;
+  access_log /var/log/nginx/<%= @fqdn %><%= @ssl_tag %>.log;
+  error_log /var/log/nginx/<%= @fqdn %><%= @ssl_tag %>.err;
   location / {
     try_files $uri @backend;
   }

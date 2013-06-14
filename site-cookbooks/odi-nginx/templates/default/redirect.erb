@@ -1,7 +1,7 @@
 server {
-  listen 80;
+  listen <%= @port %>;
   server_name <%= @that %>;
-  access_log /var/log/nginx/<%= @that %>.log;
-  error_log /var/log/nginx/<%= @that %>.err;
-  rewrite  ^/(.*)$ http://<%= @this %>/$1 permanent;
+  access_log /var/log/nginx/<%= @that %><%= @ssl_tag %>.log;
+  error_log /var/log/nginx/<%= @that %><%= @ssl_tag %>.err;
+  rewrite  ^/(.*)$ <%= @protocol %>://<%= @this %>/$1 permanent;
 }
