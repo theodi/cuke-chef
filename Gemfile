@@ -15,3 +15,5 @@ gem "librarian-chef", :git => "https://github.com/applicationsonline/librarian-c
 gem 'foodcritic'
 
 gem 'ztk', '1.0.3'
+
+gem 'mixlib-shellout', :github => 'zentoo/mixlib-shellout'
