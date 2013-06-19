@@ -25,10 +25,12 @@ cookbook 'postfix'
 cookbook 'ntp'
 cookbook 'elasticsearch', :github => 'elasticsearch/cookbook-elasticsearch'
 cookbook 'java', :github => 'opscode-cookbooks/java'
-cookbook 'logstash', :github => 'lusis/chef-logstash'
+#cookbook 'logstash', :github => 'lusis/chef-logstash'
 
 # ODI books here
 cookbook 'rvm', :git => 'git@github.com:theodi/chef-rvm.git'
 cookbook 'libcurl', :git => 'git@github.com:theodi/chef-libcurl.git'
 cookbook 'sqlite', :git => 'git@github.com:theodi/chef-sqlite.git'
 cookbook 'envbuilder', :git => 'git://github.com/theodi/chef-envbuilder.git'
+cookbook 'logstash', :git => 'git@github.com:theodi/chef-logstash.git'
+
