@@ -106,6 +106,7 @@ template "/etc/cron.d/hoppler" do
   source "cron.erb"
   variables(
       :backup_hour  => node["hoppler"]["backup_hour"],
+      :backup_minute  => node["hoppler"]["backup_minute"],
       :cleanup_hour => node["hoppler"]["cleanup_hour"],
       :cleanup_day  => node["hoppler"]["cleanup_day"]
   )
