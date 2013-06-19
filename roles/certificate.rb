@@ -15,24 +15,25 @@ default_attributes 'user'              => 'certificate',
                        ]
                    },
                    'chef_client'       => {
-                       'cron' => {
+                       'cron'  => {
                            'use_cron_d' => true,
                            'hour'       => "*",
                            'minute'     => "*/5",
                            'log_file'   => "/var/log/chef/cron.log"
-                       }
+                       },
+                       'splay' => 250
+
                    },
                    'require_memcached' => true
 
-override_attributes 'envbuilder'  => {
+override_attributes 'envbuilder' => {
     'base_dir' => '/var/www/certificates.theodi.org/shared/config',
     'owner'    => 'certificate',
     'group'    => 'certificate'
-},
-                    'chef_client' => {
-                        'interval' => 300,
-                        'splay'    => 30
-                    }
+} #,
+  #                   'chef_client' => {
+  #                       'interval' => 300
+  #                   }
 
 run_list "role[base]",
          "recipe[chef-client::cron]",
