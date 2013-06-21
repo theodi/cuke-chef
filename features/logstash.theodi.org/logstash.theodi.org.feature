@@ -27,10 +27,9 @@ Feature: Build a logstash node
     * all of the cookbooks in "./site-cookbooks" have been uploaded
 
     * the following databags have been updated:
-      | databag          | databag_path                 |
-      | envs             | ./data_bags/envs             |
+      | databag | databag_path     |
+      | envs    | ./data_bags/envs |
 
-    * the "chef-client::cron" recipe has been added to the "logstash-theodi-org-cucumber" run list
     * the "logstash_server" role has been added to the "logstash-theodi-org-cucumber" run list
     * the chef-client has been run on "logstash-theodi-org-cucumber"
 
@@ -46,7 +45,22 @@ Feature: Build a logstash node
     When I run "java -version"
     Then I should not see "command not found" in the output
 
-  @ls
+  @running
   Scenario: logstash is running
-    When I run "ps ax | grep logstash"
-    Then I should see "logstash" in the output
+    When I run "ps ax"
+    Then I should see "/opt/logstash/server/lib/logstash.jar" in the output
+
+  @es_config
+  Scenario: elasticsearch target is correct
+    * file "/opt/logstash/server/etc/logstash.conf" should contain
+    """
+output {
+  elasticsearch { host => "192.168.77.40" cluster => "logstash" }
+
+}
+    """
+
+  @chef-client
+  Scenario: chef-client is cronned
+    When I run "cat /etc/cron.d/chef-client"
+    Then I should see "/usr/bin/chef-client &> /var/log/chef/cron.log" in the output
