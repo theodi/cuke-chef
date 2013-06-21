@@ -1,11 +1,8 @@
 name 'elasticsearch_server'
 
-require 'ohai'
-
-
 default_attributes 'elasticsearch' => {
-    'cluster_name' => 'logstash',
-    'mlockall'     => false
+    'cluster_name'       => 'logstash',
+    'bootstrap_mlockall' => false
 }
 
 override_attributes 'chef_client' => {
