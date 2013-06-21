@@ -9,6 +9,7 @@ Feature: Build a fully-operational battlestation^W certificate.theodi.org node f
     * I have a server called "certificate"
     * "certificate" is running "ubuntu" "precise"
     * "certificate" should be persistent
+    * "certificate" has an IP address of "192.168.77.52"
 
     * the following environment has been uploaded:
       | environment | environment_path |
@@ -101,7 +102,7 @@ certificate ALL=NOPASSWD:ALL
   @env
   Scenario: environment-specific env file contains correct stuff
     When I run "cat /var/www/certificates.theodi.org/current/.env.production"
-    Then I should see "MEMCACHED_HOSTS: 192.168.77.42" in the output
+    Then I should see "MEMCACHED_HOSTS: 192.168.77.50" in the output
     And file "/var/www/certificates.theodi.org/current/.env.production" should be owned by "certificate:certificate"
 
   Scenario: Code is deployed
@@ -118,13 +119,13 @@ certificate ALL=NOPASSWD:ALL
     * file "/var/www/certificates.theodi.org/current/config/database.yml" should exist
     * file "/var/www/certificates.theodi.org/current/config/database.yml" should be owned by "certificate:certificate"
     * symlink "/var/www/certificates.theodi.org/current/.env" should exist
-    When I run "stat -c %N /var/www/certificate.theodi.org/current/.env"
+    When I run "stat -c %N /var/www/certificates.theodi.org/current/.env"
     Then I should see "../../shared/config/env" in the output
     When I run "cat /var/www/certificates.theodi.org/current/config/database.yml"
     Then I should see "production:" in the output
     And I should see "adapter: mysql2" in the output
     And I should see "port: 3306" in the output
-    And I should see "host: 192.168.77.30" in the output
+    And I should see "host: 192.168.77.51" in the output
     And I should see "database: certificate" in the output
     And I should see "username: certificate" in the output
     And I should see "password: etacifitrec" in the output
@@ -138,7 +139,7 @@ certificate ALL=NOPASSWD:ALL
     * file "/etc/init/open-data-certificate-thin.conf" should exist
     * file "/etc/init/open-data-certificate-thin-1.conf" should exist
     When I run "cat /etc/init/open-data-certificate-thin-1.conf"
-    Then I should see "exec su - certificates" in the output
+    Then I should see "exec su - certificate" in the output
     And I should see "export PORT=3000" in the output
 #    And I should see "RACK_ENV=production" in the output
     And I should see "/var/log/open-data-certificate/thin-1.log" in the output
@@ -229,3 +230,29 @@ server {
   Scenario: chef-client is cronned
     When I run "cat /etc/cron.d/chef-client"
     Then I should see "/usr/bin/chef-client &> /var/log/chef/cron.log" in the output
+
+  @logstash
+  Scenario: logstash agent is correctly configured
+    * file "/opt/logstash/agent/etc/shipper.conf" should contain
+    """
+    input {
+      file {
+        type => "sample-logs"
+          path => [
+            "/var/log/*.log",
+            "/var/log/nginx/*",
+            "/var/log/open-data-certificate/thin-1.log",
+            "/var/www/certificates.theodi.org/shared/log/production.log",
+            "/var/log/chef/cron.log",
+            "/var/log/logstash/logstash.log"
+          ]
+          exclude => ["*.gz"]
+          debug => true
+      }
+    }
+
+
+    output {
+      tcp { host => "192.168.77.41" port => "5959" }
+    }
+    """
