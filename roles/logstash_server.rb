@@ -16,13 +16,6 @@ override_attributes 'chef_client' => {
                         'elasticsearch_role'  => nil
                     }
 
-#                    'logstash'    => {
-#                        'kibana' => {
-#                            'http_port' => 8080
-#                        }
-#                    }
-
 run_list 'role[base]',
-         #         'recipe[java]',
+         "recipe[chef-client::cron]",
          'recipe[odi-logstash::server]'
-#         'recipe[logstash::kibana]'
