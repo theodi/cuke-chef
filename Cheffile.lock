@@ -82,25 +82,6 @@ GIT
     libcurl (0.1.0)
 
 GIT
-  remote: git@github.com:theodi/chef-logstash.git
-  ref: master
-  sha: 4235b6140902266624e0286ed46b5dd24ff9836f
-  specs:
-    logstash (0.6.1)
-      ant (>= 0.0.0)
-      apache2 (>= 0.0.0)
-      build-essential (>= 0.0.0)
-      git (>= 0.0.0)
-      java (>= 0.0.0)
-      logrotate (>= 0.0.0)
-      php (>= 0.0.0)
-      python (>= 0.0.0)
-      rabbitmq (>= 0.0.0)
-      rbenv (>= 0.0.0)
-      runit (>= 0.0.0)
-      yumrepo (>= 0.0.0)
-
-GIT
   remote: git@github.com:theodi/chef-rvm.git
   ref: master
   sha: ee7847c86d14204be86cb4640008d2407b01c4b7
@@ -132,10 +113,29 @@ GIT
 GIT
   remote: https://github.com/elasticsearch/cookbook-elasticsearch
   ref: master
-  sha: be26b51f6c781536229e80ffd27e2e03970353a4
+  sha: eed9415ccbc2f8ff4bb962ecf76e48e86fcc9c0a
   specs:
-    elasticsearch (0.3.0)
+    elasticsearch (0.3.1)
       ark (>= 0.0.0)
+
+GIT
+  remote: https://github.com/lusis/chef-logstash
+  ref: master
+  sha: 4235b6140902266624e0286ed46b5dd24ff9836f
+  specs:
+    logstash (0.6.1)
+      ant (>= 0.0.0)
+      apache2 (>= 0.0.0)
+      build-essential (>= 0.0.0)
+      git (>= 0.0.0)
+      java (>= 0.0.0)
+      logrotate (>= 0.0.0)
+      php (>= 0.0.0)
+      python (>= 0.0.0)
+      rabbitmq (>= 0.0.0)
+      rbenv (>= 0.0.0)
+      runit (>= 0.0.0)
+      yumrepo (>= 0.0.0)
 
 GIT
   remote: https://github.com/msonnabaum/chef-drush
@@ -148,7 +148,7 @@ GIT
 GIT
   remote: https://github.com/opscode-cookbooks/java
   ref: master
-  sha: 7b559d6509c32cb250571250a2484dba2a9d5e49
+  sha: 153a80db7c5b8faee1f5fa39e15f54a4503d6829
   specs:
     java (1.11.7)
       windows (>= 0.0.0)
@@ -163,6 +163,14 @@ GIT
       xml (>= 0.0.0)
       yumrepo (>= 0.0.0)
 
+GIT
+  remote: https://github.com/realityforge/chef-kibana
+  ref: master
+  sha: 59ed38918a41e74e2c47c2749f258633583f96de
+  specs:
+    kibana (0.1.6)
+      build-essential (>= 0.0.0)
+
 DEPENDENCIES
   apache2 (>= 0)
   apt (= 1.9.0)
@@ -175,6 +183,7 @@ DEPENDENCIES
   git (>= 0)
   imagemagick (>= 0)
   java (>= 0)
+  kibana (>= 0)
   libcurl (>= 0)
   logstash (>= 0)
   memcached (>= 0)
