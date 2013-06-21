@@ -1,7 +1,8 @@
 name 'cucumber'
 
 default_attributes 'ENV'      => 'production',
-                   'RACK_ENV' => 'production'
+                   'RACK_ENV' => 'production',
+                   'logstash_env' => 'cucumber'
 #                   'chef_client' => {
 #                       'conf_dir' => '/tmp'
 #                   }

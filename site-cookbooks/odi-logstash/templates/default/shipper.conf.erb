@@ -1,0 +1,20 @@
+input {
+  file {
+    type => "sample-logs"
+    path => [
+      "/var/log/*.log",
+      "/var/log/nginx/*",
+      "/var/log/<%= @git_project %>/thin-1.log",
+      "/var/www/<%= @fqdn %>/shared/log/production.log",
+      "/var/log/chef/cron.log",
+      "/var/log/logstash/logstash.log"
+    ]
+    exclude => ["*.gz"]
+    debug => true
+  }
+}
+
+
+output {
+  tcp { host => "<%= @logstash_box %>" port => "5959" }
+}

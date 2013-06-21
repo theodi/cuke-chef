@@ -1,11 +1,12 @@
 name 'odc-production'
 
-default_attributes 'ENV'         => 'production',
-                   'RACK_ENV'    => 'production',
-                   'chef_client' => {
+default_attributes 'ENV'          => 'production',
+                   'RACK_ENV'     => 'production',
+                   'logstash_env' => 'production',
+                   'chef_client'  => {
                        'server_url' => 'https://chef.theodi.org'
                    },
-                   'deploy'      => {
+                   'deploy'       => {
                        'revision' => 'CURRENT'
                    }
 
