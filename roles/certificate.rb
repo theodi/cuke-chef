@@ -30,10 +30,7 @@ override_attributes 'envbuilder' => {
     'base_dir' => '/var/www/certificates.theodi.org/shared/config',
     'owner'    => 'certificate',
     'group'    => 'certificate'
-} #,
-  #                   'chef_client' => {
-  #                       'interval' => 300
-  #                   }
+}
 
 run_list "role[base]",
          "recipe[chef-client::cron]",
@@ -49,4 +46,5 @@ run_list "role[base]",
          "recipe[mysql::client]",
          "recipe[sqlite::dev]",
          "recipe[envbuilder]",
-         "recipe[odi-deployment]"
+         "recipe[odi-deployment]",
+         "recipe[odi-logstash::agent]"
