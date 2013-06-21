@@ -9,7 +9,7 @@ Feature: Build a functioning MySQL server
     * I have a server called "mysql-certificate-theodi-org-cucumber"
     * "mysql-certificate-theodi-org-cucumber" is running "ubuntu" "precise"
     * "mysql-certificate-theodi-org-cucumber" should be persistent
-    * "mysql-certificate-theodi-org-cucumber" has an IP address of "192.168.77.30"
+    * "mysql-certificate-theodi-org-cucumber" has an IP address of "192.168.77.51"
 
     * the following environment has been uploaded:
       | environment | environment_path |

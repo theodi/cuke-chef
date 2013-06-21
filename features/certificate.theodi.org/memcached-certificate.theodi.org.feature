@@ -9,7 +9,7 @@ Feature: Build a functioning memcached server
     * I have a server called "memcached-certificate-theodi-org-cucumber"
     * "memcached-certificate-theodi-org-cucumber" is running "ubuntu" "precise"
     * "memcached-certificate-theodi-org-cucumber" should be persistent
-    * "memcached-certificate-theodi-org-cucumber" has an IP address of "192.168.77.42"
+    * "memcached-certificate-theodi-org-cucumber" has an IP address of "192.168.77.50"
 
     * the following environment has been uploaded:
       | environment | environment_path |
@@ -33,6 +33,7 @@ Feature: Build a functioning memcached server
       | username | keyfile |
       | $lxc$    | $lxc$   |
 
+  @connect
   Scenario: Can connect to the provisioned server via SSH authentication
     When I run "hostname"
     Then I should see "memcached-certificate-theodi-org-cucumber" in the output
