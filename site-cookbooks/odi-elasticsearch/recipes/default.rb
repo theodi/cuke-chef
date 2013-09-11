@@ -33,4 +33,6 @@ node.set['elasticsearch']['custom_config'] = {
     "network.host" => listen_address
 }
 
+node.set['elasticsearch']['custom_config'] = {}
+
 include_recipe 'elasticsearch'
