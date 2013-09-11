@@ -4,8 +4,9 @@ source "http://rubygems.org"
 #ruby-gemset=cuke-chef
 
 gem "cucumber-chef",
-#    :git => "git://github.com/Atalanta/cucumber-chef"
-    :git => "git@github.com:theodi/cucumber-chef.git"
+    :git => "git://github.com/Atalanta/cucumber-chef",
+    :tag => "v2.1.0.rc.10"
+#    :git => "git@github.com:theodi/cucumber-chef.git"
 #    :path => "/Users/sam/Github/cucumber-chef"
 
 gem "lolcommits"
