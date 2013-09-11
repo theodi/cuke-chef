@@ -30,7 +30,9 @@ if [
     'experimental',
     'production',
     'odc-production',
-    'cucumber'
+    'odc-staging',
+    'cucumber',
+    'cucumber-staging'
 ].include? node.chef_environment
   root_dir = "/var/www/%s" % [
       node['project_fqdn']
@@ -59,13 +61,13 @@ if [
   dbi     = data_bag_item "databases", "credentials"
   db_pass = dbi[node['mysql_db']][node.chef_environment]
 
-  db_box = search(:node, "name:mysql-#{node['mysql_db']}* AND chef_environment:#{node.chef_environment}")[0]
+  db_box = search(:node, "name:*mysql-#{node['mysql_db']}* AND chef_environment:#{node.chef_environment}")[0]
   db_ip  = db_box["ipaddress"]
   if db_box["rackspace"]
     db_ip = db_box["rackspace"]["private_ip"]
   end
 
-  mcs             = search(:node, "name:memcached-#{node['memcached_node']}* AND chef_environment:#{node.chef_environment}")
+  mcs             = search(:node, "name:*-memcached-#{node['memcached_node']}* AND chef_environment:#{node.chef_environment}")
 
   deploy_revision root_dir do
     user node['user']
