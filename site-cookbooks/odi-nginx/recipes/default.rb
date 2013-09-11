@@ -44,7 +44,14 @@ if ssl
   protocol = 'https'
 end
 
-template "/etc/nginx/sites-available/%s%s" % [
+prefix = ''
+if node['nginx']['vhost_prefix'] then
+  prefix = "%s." % [
+      node['nginx']['vhost_prefix']
+  ]
+end
+template "/etc/nginx/sites-available/%s%s%s" % [
+    prefix,
     node["project_fqdn"],
     ssl_tag
 ] do
@@ -54,22 +61,33 @@ template "/etc/nginx/sites-available/%s%s" % [
     port = 81
   end
 
+  fqdn = node["project_fqdn"]
+  if node['nginx']['vhost_prefix'] then
+    fqdn = "%s.%s" % [
+        node['nginx']['vhost_prefix'],
+        fqdn
+    ]
+  end
+
   source "vhost.erb"
   variables(
       :port          => port,
       :ssl_tag       => ssl_tag,
-      :fqdn          => node["project_fqdn"],
+      :fqdn          => fqdn,
+      :code_path     => node["project_fqdn"],
       :project_name  => node["git_project"],
       :static_assets => node["nginx"]["static_assets"]
   )
   action :create
 end
 
-link "/etc/nginx/sites-enabled/%s%s" % [
+link "/etc/nginx/sites-enabled/%s%s%s" % [
+    prefix,
     node["project_fqdn"],
     ssl_tag
 ] do
-  to "/etc/nginx/sites-available/%s%s" % [
+  to "/etc/nginx/sites-available/%s%s%s" % [
+      prefix,
       node["project_fqdn"],
       ssl_tag
   ]
