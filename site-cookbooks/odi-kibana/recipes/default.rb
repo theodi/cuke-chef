@@ -37,6 +37,6 @@ es_boxen.each do |es_box|
 end
 
 node.set['kibana']['elasticsearch']['hosts'] = es_ips
-
+node.set['kibana']['git']['reference'] = 'kibana-ruby'
 
 include_recipe 'kibana::default'
