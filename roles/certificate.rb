@@ -7,7 +7,11 @@ default_attributes 'user'              => 'certificate',
                    'mysql_db'          => 'certificate',
                    'memcached_node'    => 'certificate',
                    'git_project'       => 'open-data-certificate',
-                   'migration_command' => 'bundle exec rake db:migrate ; bundle exec rake surveyor:build_changed_surveys',
+                   'migration_command' => 'bundle exec rake db:migrate',
+                   'after_restart_commands' => [
+                       'bundle exec rake surveyor:enqueue_surveys',
+                       'bundle exec rake cache:clear'
+                   ],
                    'nginx'             => {
                        'force_ssl'     => true,
                        '301_redirects' => [

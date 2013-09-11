@@ -185,6 +185,23 @@ if [
     end
 
     restart_command "sudo service #{node['git_project']} restart"
+
+    after_restart do
+      running_deploy_user       = new_resource.user
+      current_release_directory = release_path
+
+      (node['after_restart_commands'] || []).each do |command|
+        script command do
+          interpreter 'bash'
+          cwd current_release_directory
+          user running_deploy_user
+          code <<-EOF
+          RAILS_ENV=production #{command}
+          EOF
+        end
+      end
+    end
+
     action :deploy
   end
 
