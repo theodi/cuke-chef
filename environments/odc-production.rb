@@ -25,4 +25,4 @@ cookbook 'xslt', '= 0.0.1'
 cookbook 'hoppler', '= 0.1.2'
 cookbook 'apt', '= 1.9.0'
 cookbook 'odi-deployment', '= 0.2.1'
-
+cookbook 'odi-mysql', '= 0.2.0'
