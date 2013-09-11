@@ -1,5 +1,7 @@
 name 'memcached'
 
+default_attributes :user => 'memcached'
+
 override_attributes 'chef_client' => {
     'cron'  => {
         'use_cron_d' => true,
