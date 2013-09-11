@@ -38,4 +38,6 @@ node.set['rvm']['user_installs'] = [
 ]
 
 
+include_recipe "odi-xml"
+include_recipe "xslt"
 include_recipe "rvm::user_install"
