@@ -48,7 +48,7 @@ Feature: Build an elasticsearch node
   @config
   Scenario: custom config has been applied
     When I run "cat /usr/local/etc/elasticsearch/elasticsearch.yml"
-    Then I should see "network.host: 192.168.77.40" in the output
+    Then I should not see "network.host: 192.168.77.40" in the output
     And I should see "cluster.name: logstash" in the output
     And I should see "bootstrap.mlockall: false" in the output
 
