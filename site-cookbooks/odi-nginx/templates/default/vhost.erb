@@ -13,7 +13,7 @@ server {
 
 <% if @static_assets %>
 location ~ ^/(assets)/  {
-  root /var/www/<%= @fqdn %>/current/public/;
+  root /var/www/<%= @code_path %>/current/public/;
   gzip_static on; # to serve pre-gzipped version
   expires max;
   add_header Cache-Control public;
